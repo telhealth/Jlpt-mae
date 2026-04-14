@@ -820,49 +820,34 @@ border-radius: 10px;
   <div id="lecture" class="section">
 
 ```
-<!-- 오늘 입력 카드 -->
-<div class="card">
-  <div class="card-title">📺 오늘 인강 기록</div>
-  <div class="lec-tabs">
-    <button class="lec-tab active" onclick="selectSubject('grammar',this)">文法 문법</button>
-    <button class="lec-tab" onclick="selectSubject('reading',this)">読解 독해</button>
-    <button class="lec-tab" onclick="selectSubject('listening',this)">聴解 청해</button>
+<!-- D-Day 배너 -->
+<div style="background:linear-gradient(135deg,#1a1a2e,#2d2d4e);border-radius:14px;padding:16px 20px;margin-bottom:14px;color:white;display:flex;justify-content:space-between;align-items:center">
+  <div>
+    <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:4px">JLPT N3 시험일</div>
+    <div style="font-size:15px;font-weight:700">2025년 7월 5일</div>
+    <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px">독해 완강 → 청해 완강 순서</div>
   </div>
+  <div style="text-align:center;background:rgba(255,255,255,0.1);border-radius:10px;padding:10px 16px">
+    <div style="font-family:'DM Serif Display',serif;font-size:28px;color:#d4a843" id="lecDday">-</div>
+    <div style="font-size:10px;color:rgba(255,255,255,0.5)">D-DAY</div>
+  </div>
+</div>
 
-  <!-- 문법 -->
-  <div id="lec-grammar" class="lec-subject-panel">
-    <div class="lec-goal-row">
-      <label>하루 목표</label>
-      <input type="number" id="goal-grammar" min="1" max="20" value="3" onchange="saveGoal('grammar')">
-      <span>강 / 전체</span>
-      <input type="number" id="total-grammar" min="1" max="200" value="60" onchange="saveGoal('grammar')">
-      <span>강</span>
-    </div>
-    <div class="lec-today-row">
-      <button class="lec-count-btn" onclick="addCount('grammar',-1)">−</button>
-      <div>
-        <div class="lec-count-num" id="cnt-grammar">0</div>
-        <div class="lec-count-label">오늘 완료</div>
-      </div>
-      <button class="lec-count-btn" onclick="addCount('grammar',1)">+</button>
-    </div>
-    <div id="ring-grammar"></div>
-  </div>
+<!-- 오늘 학습 체크 카드 -->
+<div class="card">
+  <div class="card-title">📺 오늘 학습 체크</div>
 
   <!-- 독해 -->
-  <div id="lec-reading" class="lec-subject-panel" style="display:none">
-    <div class="lec-goal-row">
-      <label>하루 목표</label>
-      <input type="number" id="goal-reading" min="1" max="20" value="2" onchange="saveGoal('reading')">
-      <span>강 / 전체</span>
-      <input type="number" id="total-reading" min="1" max="200" value="40" onchange="saveGoal('reading')">
-      <span>강</span>
+  <div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border)">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <span class="lec-badge reading">読解 독해</span>
+      <span style="font-size:11px;color:var(--muted)">전체 10강</span>
     </div>
     <div class="lec-today-row">
       <button class="lec-count-btn" onclick="addCount('reading',-1)">−</button>
-      <div>
+      <div style="text-align:center;flex:1">
         <div class="lec-count-num" id="cnt-reading">0</div>
-        <div class="lec-count-label">오늘 완료</div>
+        <div class="lec-count-label">오늘 완료 강수</div>
       </div>
       <button class="lec-count-btn" onclick="addCount('reading',1)">+</button>
     </div>
@@ -870,27 +855,42 @@ border-radius: 10px;
   </div>
 
   <!-- 청해 -->
-  <div id="lec-listening" class="lec-subject-panel" style="display:none">
-    <div class="lec-goal-row">
-      <label>하루 목표</label>
-      <input type="number" id="goal-listening" min="1" max="20" value="2" onchange="saveGoal('listening')">
-      <span>강 / 전체</span>
-      <input type="number" id="total-listening" min="1" max="200" value="30" onchange="saveGoal('listening')">
-      <span>강</span>
+  <div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border)">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <span class="lec-badge listening">聴解 청해</span>
+      <span style="font-size:11px;color:var(--muted)">전체 13강</span>
     </div>
     <div class="lec-today-row">
       <button class="lec-count-btn" onclick="addCount('listening',-1)">−</button>
-      <div>
+      <div style="text-align:center;flex:1">
         <div class="lec-count-num" id="cnt-listening">0</div>
-        <div class="lec-count-label">오늘 완료</div>
+        <div class="lec-count-label">오늘 완료 강수</div>
       </div>
       <button class="lec-count-btn" onclick="addCount('listening',1)">+</button>
     </div>
     <div id="ring-listening"></div>
   </div>
 
-  <div class="btn-row" style="margin-top:4px">
-    <button class="btn-primary" onclick="saveLecture()">💾 저장</button>
+  <!-- 단어 암기 -->
+  <div style="margin-bottom:14px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <span style="font-size:12px;font-weight:700;color:var(--ink)">📖 오늘 단어 암기</span>
+      <span style="font-size:11px;color:var(--muted)">개수 입력</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="lec-count-btn" onclick="addVocab(-5)">−5</button>
+      <button class="lec-count-btn" onclick="addVocab(-1)">−</button>
+      <div style="text-align:center;flex:1">
+        <div class="lec-count-num" id="cnt-vocab">0</div>
+        <div class="lec-count-label">오늘 외운 단어</div>
+      </div>
+      <button class="lec-count-btn" onclick="addVocab(1)">+</button>
+      <button class="lec-count-btn" onclick="addVocab(5)">+5</button>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-primary" onclick="saveLecture()">💾 오늘 기록 저장</button>
   </div>
 </div>
 
@@ -898,11 +898,17 @@ border-radius: 10px;
 <div class="card">
   <div class="card-title">전체 진도율</div>
   <div id="overallProgress"></div>
+  <!-- 주간 페이스 안내 -->
+  <div style="margin-top:10px;padding:10px;background:var(--warm);border-radius:8px;font-size:11px;color:var(--muted);line-height:1.7">
+    📌 8주 완강 목표 페이스<br>
+    독해: 주 <b style="color:var(--accent)">1~2강</b> → 5주차 완강<br>
+    청해: 주 <b style="color:var(--green)">2강</b> → 7~8주차 완강
+  </div>
 </div>
 
 <!-- 기록 -->
 <div class="card">
-  <div class="card-title">인강 기록</div>
+  <div class="card-title">학습 기록</div>
   <div id="lectureLog"></div>
 </div>
 ```
@@ -1215,22 +1221,18 @@ async function deleteNotice(id) {
 }
 
 // ===== LECTURE =====
-const SUBJECTS = ['grammar', 'reading', 'listening'];
-const SUBJECT_KOR = { grammar: '문법', reading: '독해', listening: '청해' };
+const SUBJECTS = ['reading', 'listening'];
+const SUBJECT_KOR = { reading: '독해', listening: '청해' };
 
-let lecGoals = loadData('jlpt_lecGoals', { grammar: 3, reading: 2, listening: 2 });
-let lecTotals = loadData('jlpt_lecTotals', { grammar: 60, reading: 40, listening: 30 });
-let lecLog = loadData('jlpt_lecLog', []); // [{date, grammar, reading, listening}]
-let todayLec = { grammar: 0, reading: 0, listening: 0 };
-let curSubject = 'grammar';
+let lecGoals = { reading: 1, listening: 1, grammar: 0 };
+let lecTotals = { reading: 10, listening: 13, grammar: 0 };
+let lecLog = [];
+let todayLec = { reading: 0, listening: 0, vocab: 0 };
+let curSubject = 'reading';
 
-function selectSubject(subj, btn) {
-  curSubject = subj;
-  document.querySelectorAll('.lec-tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  SUBJECTS.forEach(s => {
-    document.getElementById('lec-' + s).style.display = s === subj ? 'block' : 'none';
-  });
+function addVocab(delta) {
+  todayLec.vocab = Math.max(0, todayLec.vocab + delta);
+  document.getElementById('cnt-vocab').textContent = todayLec.vocab;
 }
 
 function saveGoal(subj) { /* handled by async version above */ }
@@ -1242,14 +1244,15 @@ function addCount(subj, delta) {
 }
 
 function renderRing(subj) {
-  const done = todayLec[subj];
-  const goal = lecGoals[subj];
+  const el = document.getElementById('ring-' + subj);
+  if (!el) return;
+  const done = todayLec[subj] || 0;
+  const goal = lecGoals[subj] || 1;
   const pct = Math.min(100, Math.round(done / goal * 100));
-  const color = subj === 'grammar' ? '#c84b31' : subj === 'reading' ? '#2d5f8a' : '#4a7c59';
+  const color = subj === 'reading' ? '#2d5f8a' : '#4a7c59';
   const r = 28, cx = 34, cy = 34, stroke = 6;
   const circ = 2 * Math.PI * r;
   const dash = (pct / 100) * circ;
-  const el = document.getElementById('ring-' + subj);
   el.innerHTML = `
     <div style="display:flex;align-items:center;gap:12px;padding:4px 0">
       <svg width="68" height="68" viewBox="0 0 68 68">
@@ -1267,9 +1270,9 @@ function renderRing(subj) {
 }
 
 async function saveLecture() {
-  await fbSet('lecLog', today(), { date: today(), ...todayLec });
+  await fbSet('lecLog', today(), { date: today(), reading: todayLec.reading, listening: todayLec.listening, vocab: todayLec.vocab || 0 });
   await fbSet('lecSettings', 'goals', { goals: lecGoals, totals: lecTotals });
-  showToast('📺 인강 기록 저장됐어요!');
+  showToast('📺 오늘 학습 저장됐어요!');
 }
 
 async function saveGoal(subj) {
@@ -1282,11 +1285,12 @@ async function saveGoal(subj) {
 
 function renderOverallProgress() {
   const el = document.getElementById('overallProgress');
+  if (!el) return;
   el.innerHTML = SUBJECTS.map(s => {
     const total = lecLog.reduce((sum, l) => sum + (l[s] || 0), 0);
     const totalCap = lecTotals[s];
     const pct = Math.min(100, Math.round(total / totalCap * 100));
-    const color = s === 'grammar' ? 'accent' : s === 'reading' ? 'blue' : 'green';
+    const color = s === 'reading' ? 'blue' : 'green';
     return `
       <div class="progress-wrap">
         <div class="progress-label">
@@ -1297,11 +1301,17 @@ function renderOverallProgress() {
           <div class="progress-fill fill-${color}" style="width:${pct}%"></div>
         </div>
       </div>`;
-  }).join('');
+  }).join('') + (() => {
+    const totalVocab = lecLog.reduce((sum, l) => sum + (l.vocab || 0), 0);
+    return `<div class="progress-wrap">
+      <div class="progress-label"><span>📖 누적 단어</span><span>${totalVocab}개</span></div>
+    </div>`;
+  })();
 }
 
 function renderLectureLog() {
   const el = document.getElementById('lectureLog');
+  if (!el) return;
   const sorted = [...lecLog].sort((a, b) => b.date.localeCompare(a.date));
   if (sorted.length === 0) {
     el.innerHTML = '<p style="font-size:13px;color:var(--muted);padding:8px 0">아직 기록이 없어요</p>';
@@ -1314,25 +1324,36 @@ function renderLectureLog() {
         <div class="lec-log-date">${l.date}</div>
       </div>
       <div class="lec-chips">
-        ${l.grammar ? `<span class="lec-chip grammar">文 ${l.grammar}강</span>` : ''}
         ${l.reading ? `<span class="lec-chip reading">読 ${l.reading}강</span>` : ''}
         ${l.listening ? `<span class="lec-chip listening">聴 ${l.listening}강</span>` : ''}
+        ${l.vocab ? `<span class="lec-chip" style="background:#fef8e7;color:#b8860b">📖 ${l.vocab}개</span>` : ''}
       </div>
     </div>`).join('');
 }
 
 function initLecture() {
-  // load today's existing log
+  // D-Day
+  const examDate = new Date('2025-07-05T00:00:00');
+  const diff = Math.ceil((examDate - new Date()) / 86400000);
+  const ddEl = document.getElementById('lecDday');
+  if (ddEl) ddEl.textContent = diff > 0 ? diff : 'D-Day!';
+
+  // Load today's log
   const existing = lecLog.find(l => l.date === today());
   if (existing) {
-    todayLec = { grammar: existing.grammar || 0, reading: existing.reading || 0, listening: existing.listening || 0 };
+    todayLec = { reading: existing.reading || 0, listening: existing.listening || 0, vocab: existing.vocab || 0 };
+  } else {
+    todayLec = { reading: 0, listening: 0, vocab: 0 };
   }
+
   SUBJECTS.forEach(s => {
-    document.getElementById('goal-' + s).value = lecGoals[s];
-    document.getElementById('total-' + s).value = lecTotals[s];
-    document.getElementById('cnt-' + s).textContent = todayLec[s];
+    const cntEl = document.getElementById('cnt-' + s);
+    if (cntEl) cntEl.textContent = todayLec[s];
     renderRing(s);
   });
+  const vocabEl = document.getElementById('cnt-vocab');
+  if (vocabEl) vocabEl.textContent = todayLec.vocab;
+
   renderOverallProgress();
   renderLectureLog();
 }
@@ -1350,45 +1371,43 @@ function showToast(msg) {
 const now = new Date();
 document.getElementById('todayBadge').textContent = `${now.getMonth()+1}월 ${now.getDate()}일`;
 
-// Show loading
-document.querySelector('main').innerHTML = `
-  <div style="text-align:center;padding:60px 20px;color:var(--muted)">
-    <div style="font-size:32px;margin-bottom:12px">🔥</div>
-    <div style="font-size:14px;font-weight:600">Firebase 연결 중...</div>
-  </div>`;
+// N3 강의 기본 세팅 (독해 10강 → 청해 13강, 8주 완강 목표)
+// 독해 먼저, 주 3회 스터디 기준 하루 목표 1강씩
+const DEFAULT_GOALS = { reading: 1, listening: 1, grammar: 0 };
+const DEFAULT_TOTALS = { reading: 10, listening: 13, grammar: 0 };
 
 async function initApp() {
   // Load lecture settings
-  const lecSettings = await fbGet('lecSettings', 'goals');
-  if (lecSettings) {
-    lecGoals = lecSettings.goals || lecGoals;
-    lecTotals = lecSettings.totals || lecTotals;
+  try {
+    const lecSettings = await fbGet('lecSettings', 'goals');
+    if (lecSettings) {
+      lecGoals = lecSettings.goals || DEFAULT_GOALS;
+      lecTotals = lecSettings.totals || DEFAULT_TOTALS;
+    } else {
+      lecGoals = DEFAULT_GOALS;
+      lecTotals = DEFAULT_TOTALS;
+      await fbSet('lecSettings', 'goals', { goals: lecGoals, totals: lecTotals });
+    }
+  } catch(e) {
+    lecGoals = DEFAULT_GOALS;
+    lecTotals = DEFAULT_TOTALS;
   }
 
-  // Restore main HTML
-  document.querySelector('main').innerHTML = mainHTML;
-
-  // Realtime: attendance
+  // Realtime listeners
   fbListen('attendance', docs => {
     attendance = docs;
     renderHistory();
     renderHome();
   });
-
-  // Realtime: events
   fbListen('events', docs => {
     events = docs;
     renderCalendar();
     renderHome();
   });
-
-  // Realtime: notices
   fbListen('notices', docs => {
     notices = docs;
     renderNotices();
   });
-
-  // Realtime: lecLog
   fbListen('lecLog', docs => {
     lecLog = docs;
     renderOverallProgress();
@@ -1399,18 +1418,10 @@ async function initApp() {
   renderHistory();
 }
 
-// Save main HTML before replacing with loader
-const mainHTML = document.querySelector('main').innerHTML;
-document.querySelector('main').innerHTML = `
-  <div style="text-align:center;padding:60px 20px;color:var(--muted)">
-    <div style="font-size:32px;margin-bottom:12px">🔥</div>
-    <div style="font-size:14px;font-weight:600">Firebase 연결 중...</div>
-  </div>`;
-
 initApp().catch(e => {
-  document.querySelector('main').innerHTML = mainHTML;
-  showToast('⚠️ 연결 실패 - 오프라인 모드');
-  renderHome(); renderHistory();
+  showToast('⚠️ Firebase 연결 실패');
+  renderHome();
+  renderHistory();
   console.error(e);
 });
 </script>
