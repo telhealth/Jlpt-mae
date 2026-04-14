@@ -4,1414 +4,398 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JLPT 스터디 그룹</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600&family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<title>JLPT N3 스터디</title>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 <style>
-  :root {
-    --ink: #1a1a2e;
-    --paper: #faf8f3;
-    --warm: #f5f0e8;
-    --accent: #c84b31;
-    --gold: #d4a843;
-    --muted: #8a8070;
-    --border: #e0d8c8;
-    --green: #4a7c59;
-    --blue: #2d5f8a;
-  }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:#f2f2f7;min-height:100vh}
 
-- { margin: 0; padding: 0; box-sizing: border-box; }
+/* 헤더 */
+.hd{background:#1a1a2e;padding:16px 18px;display:flex;align-items:center;justify-content:space-between}
+.hd-title{color:#d4a843;font-size:17px;font-weight:700;letter-spacing:1.5px}
+.hd-title small{display:block;color:rgba(255,255,255,.4);font-size:10px;font-weight:400;margin-top:2px;letter-spacing:0}
+.dday-box{background:rgba(255,255,255,.1);border-radius:10px;padding:7px 13px;text-align:center}
+.dday-box b{display:block;font-family:Georgia,serif;font-size:22px;color:#d4a843;line-height:1}
+.dday-box span{font-size:9px;color:rgba(255,255,255,.4);margin-top:2px;display:block}
 
-body {
-font-family: ‘Noto Sans KR’, sans-serif;
-background: var(–paper);
-color: var(–ink);
-min-height: 100vh;
-}
+/* 탭 */
+.tabs{display:flex;background:#fff;border-bottom:1px solid #e5e5ea}
+.tab{flex:1;padding:11px 4px;border:none;background:transparent;font-size:12px;font-weight:500;color:#8e8e93;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
+.tab.on{color:#c84b31;border-bottom-color:#c84b31;font-weight:700}
 
-/* HEADER */
-header {
-background: var(–ink);
-color: var(–paper);
-padding: 20px 24px 16px;
-position: sticky;
-top: 0;
-z-index: 100;
-border-bottom: 3px solid var(–gold);
-}
-.header-top {
-display: flex;
-align-items: center;
-justify-content: space-between;
-margin-bottom: 4px;
-}
-.logo {
-font-family: ‘Noto Serif JP’, serif;
-font-size: 22px;
-letter-spacing: 2px;
-color: var(–gold);
-}
-.logo span {
-font-family: ‘DM Serif Display’, serif;
-font-size: 13px;
-color: #aaa;
-display: block;
-letter-spacing: 1px;
-margin-top: 2px;
-}
-.today-badge {
-font-size: 11px;
-background: var(–accent);
-color: white;
-padding: 4px 10px;
-border-radius: 20px;
-font-weight: 500;
-}
+.wrap{padding:14px;max-width:430px;margin:0 auto}
+.sec{display:none}.sec.on{display:block}
 
-/* NAV TABS */
-nav {
-display: flex;
-background: var(–warm);
-border-bottom: 1px solid var(–border);
-overflow-x: auto;
-}
-nav button {
-flex: 1;
-min-width: 80px;
-padding: 12px 8px;
-border: none;
-background: transparent;
-font-family: ‘Noto Sans KR’, sans-serif;
-font-size: 12px;
-font-weight: 500;
-color: var(–muted);
-cursor: pointer;
-transition: all 0.2s;
-border-bottom: 3px solid transparent;
-white-space: nowrap;
-}
-nav button.active {
-color: var(–accent);
-border-bottom-color: var(–accent);
-background: white;
-font-weight: 700;
-}
-nav button:hover:not(.active) {
-color: var(–ink);
-background: var(–border);
-}
+/* 카드 */
+.card{background:#fff;border-radius:13px;padding:16px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.card-ttl{font-size:10px;font-weight:700;color:#8e8e93;letter-spacing:1px;text-transform:uppercase;margin-bottom:13px}
 
-/* MAIN */
-main { padding: 20px 16px; max-width: 480px; margin: 0 auto; }
+/* 오늘 체크 */
+.chk-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid #f2f2f7}
+.chk-row:last-of-type{border-bottom:none}
+.chk-left{display:flex;align-items:center;gap:10px}
+.chk-ico{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px}
+.ico-r{background:#eef3fb}.ico-l{background:#eaf6ef}.ico-v{background:#fef9e8}
+.chk-name{font-size:13px;font-weight:600;color:#1c1c1e}
+.chk-sub{font-size:10px;color:#8e8e93;margin-top:1px}
+.tog{width:50px;height:28px;border-radius:14px;background:#d1d1d6;border:none;cursor:pointer;position:relative;transition:background .25s;flex-shrink:0}
+.tog::after{content:’’;position:absolute;width:22px;height:22px;border-radius:50%;background:#fff;top:3px;left:3px;transition:left .25s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.tog.on{background:#34c759}.tog.on::after{left:25px}
 
-/* SECTIONS */
-.section { display: none; }
-.section.active { display: block; animation: fadeUp 0.3s ease; }
+/* 단어 */
+.vctr{display:flex;align-items:center;gap:8px}
+.vb{width:30px;height:30px;border-radius:50%;border:1.5px solid #d1d1d6;background:#fff;font-size:16px;font-weight:700;color:#333;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.vb:active{background:#f2f2f7}
+.vn{font-size:22px;font-weight:700;color:#1c1c1e;min-width:36px;text-align:center}
 
-@keyframes fadeUp {
-from { opacity: 0; transform: translateY(8px); }
-to { opacity: 1; transform: translateY(0); }
-}
+/* 진도 */
+.prog-blk{margin-bottom:16px}
+.prog-blk:last-child{margin-bottom:0}
+.prog-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
+.prog-name{font-size:13px;font-weight:600;color:#1c1c1e}
+.prog-sub{font-size:11px;color:#8e8e93}
+.bar{height:7px;background:#f2f2f7;border-radius:10px;overflow:hidden;margin-bottom:5px}
+.fill{height:100%;border-radius:10px;transition:width .6s}
+.fr{background:#2d5f8a}.fl{background:#4a7c59}
+.prog-foot{display:flex;justify-content:space-between;align-items:center}
+.prog-num{font-size:11px;color:#8e8e93}
+.badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:8px}
+.ok{background:#e8f8ee;color:#34a853}
+.late{background:#feeae8;color:#c84b31}
+.ontrack{background:#e8f0fa;color:#2d5f8a}
 
-/* CARDS */
-.card {
-background: white;
-border: 1px solid var(–border);
-border-radius: 12px;
-padding: 16px;
-margin-bottom: 14px;
-box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-}
-.card-title {
-font-size: 11px;
-font-weight: 700;
-color: var(–muted);
-text-transform: uppercase;
-letter-spacing: 1.5px;
-margin-bottom: 12px;
-display: flex;
-align-items: center;
-gap: 6px;
-}
-.card-title::before {
-content: ‘’;
-display: inline-block;
-width: 3px;
-height: 12px;
-background: var(–accent);
-border-radius: 2px;
-}
+/* 주간 도트 */
+.week-dots{display:flex;gap:3px;margin-top:6px}
+.wd{flex:1;height:5px;border-radius:3px;background:#f2f2f7}
+.wd.r{background:#2d5f8a}.wd.l{background:#4a7c59}
 
-/* ===== HOME ===== */
-.welcome-strip {
-background: linear-gradient(135deg, var(–ink) 0%, #2d2d4e 100%);
-border-radius: 14px;
-padding: 20px;
-margin-bottom: 14px;
-color: white;
-position: relative;
-overflow: hidden;
-}
-.welcome-strip::after {
-content: ‘日本語’;
-position: absolute;
-right: -10px;
-top: 50%;
-transform: translateY(-50%) rotate(15deg);
-font-family: ‘Noto Serif JP’, serif;
-font-size: 48px;
-color: rgba(255,255,255,0.06);
-pointer-events: none;
-}
-.welcome-strip h2 {
-font-size: 18px;
-font-weight: 700;
-margin-bottom: 4px;
-}
-.welcome-strip p {
-font-size: 12px;
-color: rgba(255,255,255,0.6);
-}
-.stats-row {
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-gap: 10px;
-margin-top: 14px;
-}
-.stat-box {
-background: rgba(255,255,255,0.1);
-border-radius: 8px;
-padding: 10px;
-text-align: center;
-}
-.stat-box .num {
-font-family: ‘DM Serif Display’, serif;
-font-size: 24px;
-color: var(–gold);
-display: block;
-}
-.stat-box .lbl {
-font-size: 10px;
-color: rgba(255,255,255,0.6);
-margin-top: 2px;
-}
+/* 캘린더 */
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.cal-mth{font-size:16px;font-weight:700;color:#1c1c1e}
+.cal-btn{background:none;border:1px solid #e5e5ea;border-radius:8px;width:30px;height:30px;cursor:pointer;font-size:13px;color:#333}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center}
+.cal-dl{font-size:10px;color:#8e8e93;padding:4px 0;font-weight:600}
+.cal-dl:first-child{color:#c84b31}.cal-dl:last-child{color:#2d5f8a}
+.cal-d{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;border-radius:8px;position:relative;cursor:default}
+.cal-d.today{background:#c84b31;color:#fff;font-weight:700;border-radius:50%}
+.cal-d.has::after{content:’’;position:absolute;bottom:2px;width:4px;height:4px;border-radius:50%;background:#34c759}
+.cal-d.today.has::after{background:#fff}
+.cal-d.exam{background:#feeae8;color:#c84b31;font-weight:700;border-radius:50%}
 
-/* ===== ATTENDANCE ===== */
-.session-header {
-display: flex;
-justify-content: space-between;
-align-items: center;
-margin-bottom: 12px;
-}
-.session-date-badge {
-background: var(–accent);
-color: white;
-font-size: 11px;
-font-weight: 700;
-padding: 4px 10px;
-border-radius: 20px;
-}
-.member-row {
-display: flex;
-align-items: center;
-padding: 12px 0;
-border-bottom: 1px solid var(–border);
-gap: 12px;
-}
-.member-row:last-child { border-bottom: none; }
-.avatar {
-width: 38px;
-height: 38px;
-border-radius: 50%;
-display: flex;
-align-items: center;
-justify-content: center;
-font-family: ‘Noto Serif JP’, serif;
-font-size: 16px;
-font-weight: 600;
-flex-shrink: 0;
-}
-.avatar.a { background: #fce8e3; color: var(–accent); }
-.avatar.b { background: #e3f0e8; color: var(–green); }
-.avatar.c { background: #e3eaf5; color: var(–blue); }
+/* 로그 */
+.log-item{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #f2f2f7}
+.log-item:last-child{border-bottom:none}
+.log-date{font-size:11px;color:#8e8e93}
+.chips{display:flex;gap:4px;flex-wrap:wrap}
+.chip{font-size:10px;font-weight:600;padding:2px 7px;border-radius:7px}
+.chip-r{background:#eef3fb;color:#2d5f8a}
+.chip-l{background:#eaf6ef;color:#4a7c59}
+.chip-v{background:#fef9e8;color:#b8860b}
 
-.member-info { flex: 1; }
-.member-name { font-size: 14px; font-weight: 600; }
-.member-sub { font-size: 11px; color: var(–muted); margin-top: 2px; }
+/* 저장 버튼 */
+.save-btn{width:100%;padding:13px;background:#c84b31;color:#fff;border:none;border-radius:11px;font-size:14px;font-weight:700;cursor:pointer;margin-top:13px;transition:opacity .2s}
+.save-btn:active{opacity:.8}
 
-.check-btn {
-width: 36px;
-height: 36px;
-border-radius: 50%;
-border: 2px solid var(–border);
-background: white;
-cursor: pointer;
-font-size: 16px;
-display: flex;
-align-items: center;
-justify-content: center;
-transition: all 0.2s;
-flex-shrink: 0;
-}
-.check-btn.checked {
-background: var(–green);
-border-color: var(–green);
-color: white;
-}
-.check-btn:hover { transform: scale(1.1); }
-
-.attendance-history { margin-top: 6px; }
-.history-item {
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 10px 0;
-border-bottom: 1px solid var(–border);
-font-size: 13px;
-}
-.history-item:last-child { border-bottom: none; }
-.history-date { color: var(–muted); font-size: 11px; }
-.history-dots { display: flex; gap: 4px; }
-.dot {
-width: 22px;
-height: 22px;
-border-radius: 50%;
-font-size: 10px;
-display: flex;
-align-items: center;
-justify-content: center;
-font-weight: 700;
-}
-.dot.present { background: var(–green); color: white; }
-.dot.absent { background: #f0ebe3; color: var(–muted); }
-
-/* ===== CALENDAR ===== */
-.cal-header {
-display: flex;
-align-items: center;
-justify-content: space-between;
-margin-bottom: 14px;
-}
-.cal-month {
-font-family: ‘DM Serif Display’, serif;
-font-size: 20px;
-color: var(–ink);
-}
-.cal-nav {
-background: none;
-border: 1px solid var(–border);
-border-radius: 8px;
-padding: 6px 12px;
-cursor: pointer;
-font-size: 14px;
-color: var(–ink);
-}
-.cal-nav:hover { background: var(–warm); }
-.cal-grid {
-display: grid;
-grid-template-columns: repeat(7, 1fr);
-gap: 2px;
-text-align: center;
-}
-.cal-day-label {
-font-size: 10px;
-font-weight: 700;
-color: var(–muted);
-padding: 6px 0;
-text-transform: uppercase;
-}
-.cal-day-label:first-child { color: var(–accent); }
-.cal-day-label:last-child { color: var(–blue); }
-.cal-cell {
-aspect-ratio: 1;
-display: flex;
-align-items: center;
-justify-content: center;
-font-size: 12px;
-border-radius: 8px;
-cursor: pointer;
-position: relative;
-transition: background 0.15s;
-}
-.cal-cell:hover:not(.empty) { background: var(–warm); }
-.cal-cell.today {
-background: var(–accent);
-color: white;
-font-weight: 700;
-}
-.cal-cell.has-event::after {
-content: ‘’;
-position: absolute;
-bottom: 3px;
-width: 4px;
-height: 4px;
-background: var(–gold);
-border-radius: 50%;
-}
-.cal-cell.today.has-event::after { background: white; }
-.cal-cell.other-month { color: var(–border); }
-
-.event-list { margin-top: 14px; }
-.event-item {
-display: flex;
-gap: 12px;
-align-items: flex-start;
-padding: 10px 0;
-border-bottom: 1px solid var(–border);
-}
-.event-item:last-child { border-bottom: none; }
-.event-dot {
-width: 8px;
-height: 8px;
-border-radius: 50%;
-margin-top: 5px;
-flex-shrink: 0;
-}
-.event-dot.study { background: var(–accent); }
-.event-dot.exam { background: var(–gold); }
-.event-dot.etc { background: var(–blue); }
-.event-text { flex: 1; }
-.event-title { font-size: 13px; font-weight: 600; }
-.event-meta { font-size: 11px; color: var(–muted); margin-top: 2px; }
-
-/* Add event form */
-.add-form {
-margin-top: 12px;
-padding-top: 12px;
-border-top: 1px dashed var(–border);
-display: none;
-}
-.add-form.open { display: block; }
-.form-row { margin-bottom: 10px; }
-.form-row label { font-size: 11px; color: var(–muted); display: block; margin-bottom: 4px; font-weight: 600; }
-.form-row input, .form-row select, .form-row textarea {
-width: 100%;
-padding: 8px 10px;
-border: 1px solid var(–border);
-border-radius: 8px;
-font-family: ‘Noto Sans KR’, sans-serif;
-font-size: 13px;
-color: var(–ink);
-background: var(–warm);
-outline: none;
-}
-.form-row input:focus, .form-row select:focus, .form-row textarea:focus {
-border-color: var(–accent);
-background: white;
-}
-
-/* ===== NOTICES ===== */
-.notice-item {
-padding: 14px 0;
-border-bottom: 1px solid var(–border);
-}
-.notice-item:last-child { border-bottom: none; }
-.notice-top {
-display: flex;
-align-items: center;
-justify-content: space-between;
-margin-bottom: 6px;
-}
-.notice-tag {
-font-size: 10px;
-font-weight: 700;
-padding: 2px 8px;
-border-radius: 10px;
-letter-spacing: 0.5px;
-}
-.notice-tag.announce { background: #fce8e3; color: var(–accent); }
-.notice-tag.memo { background: #e3f0e8; color: var(–green); }
-.notice-tag.quiz { background: #fef8e7; color: #b8860b; }
-.notice-date { font-size: 10px; color: var(–muted); }
-.notice-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
-.notice-body { font-size: 12px; color: var(–muted); line-height: 1.6; }
-.notice-author {
-font-size: 10px;
-color: var(–muted);
-margin-top: 6px;
-display: flex;
-align-items: center;
-gap: 4px;
-}
-
-/* BUTTONS */
-.btn-primary {
-background: var(–accent);
-color: white;
-border: none;
-border-radius: 10px;
-padding: 10px 18px;
-font-family: ‘Noto Sans KR’, sans-serif;
-font-size: 13px;
-font-weight: 700;
-cursor: pointer;
-transition: all 0.2s;
-display: flex;
-align-items: center;
-gap: 6px;
-}
-.btn-primary:hover { background: #b03d26; transform: translateY(-1px); }
-.btn-outline {
-background: transparent;
-color: var(–accent);
-border: 1.5px solid var(–accent);
-border-radius: 10px;
-padding: 8px 16px;
-font-family: ‘Noto Sans KR’, sans-serif;
-font-size: 12px;
-font-weight: 600;
-cursor: pointer;
-transition: all 0.2s;
-}
-.btn-outline:hover { background: #fce8e3; }
-
-.btn-row {
-display: flex;
-gap: 8px;
-justify-content: flex-end;
-margin-top: 10px;
-}
-
-/* PROGRESS BAR */
-.progress-wrap { margin-top: 8px; }
-.progress-label {
-display: flex;
-justify-content: space-between;
-font-size: 11px;
-color: var(–muted);
-margin-bottom: 4px;
-}
-.progress-bar {
-height: 6px;
-background: var(–border);
-border-radius: 10px;
-overflow: hidden;
-margin-bottom: 10px;
-}
-.progress-fill {
-height: 100%;
-border-radius: 10px;
-transition: width 0.5s ease;
-}
-.fill-accent { background: var(–accent); }
-.fill-green { background: var(–green); }
-.fill-blue { background: var(–blue); }
-
-/* TOAST */
-.toast {
-position: fixed;
-bottom: 24px;
-left: 50%;
-transform: translateX(-50%) translateY(80px);
-background: var(–ink);
-color: white;
-padding: 10px 20px;
-border-radius: 24px;
-font-size: 13px;
-font-weight: 500;
-z-index: 999;
-transition: transform 0.3s ease;
-white-space: nowrap;
-}
-.toast.show { transform: translateX(-50%) translateY(0); }
-
-.section-subtitle {
-font-size: 11px;
-color: var(–muted);
-margin-bottom: 16px;
-}
-
-/* ===== LECTURE ===== */
-.lec-tabs {
-display: flex;
-gap: 6px;
-margin-bottom: 14px;
-}
-.lec-tab {
-flex: 1;
-padding: 8px 4px;
-border: 1.5px solid var(–border);
-border-radius: 10px;
-background: white;
-font-family: ‘Noto Sans KR’, sans-serif;
-font-size: 12px;
-font-weight: 600;
-color: var(–muted);
-cursor: pointer;
-transition: all 0.2s;
-text-align: center;
-}
-.lec-tab.active { border-color: var(–accent); color: var(–accent); background: #fce8e3; }
-
-.lec-subject-header {
-display: flex;
-align-items: center;
-justify-content: space-between;
-margin-bottom: 10px;
-}
-.lec-badge {
-font-size: 11px;
-font-weight: 700;
-padding: 3px 10px;
-border-radius: 12px;
-}
-.lec-badge.grammar { background: #fce8e3; color: var(–accent); }
-.lec-badge.reading { background: #e3eaf5; color: var(–blue); }
-.lec-badge.listening { background: #e3f0e8; color: var(–green); }
-
-.lec-goal-row {
-display: flex;
-align-items: center;
-gap: 8px;
-margin-bottom: 10px;
-flex-wrap: wrap;
-}
-.lec-goal-row label { font-size: 11px; color: var(–muted); font-weight: 600; white-space: nowrap; }
-.lec-goal-row input {
-width: 60px;
-padding: 5px 8px;
-border: 1px solid var(–border);
-border-radius: 8px;
-font-size: 13px;
-font-family: ‘Noto Sans KR’, sans-serif;
-background: var(–warm);
-color: var(–ink);
-outline: none;
-}
-.lec-goal-row input:focus { border-color: var(–accent); background: white; }
-.lec-goal-row span { font-size: 12px; color: var(–muted); }
-
-.lec-today-row {
-display: flex;
-align-items: center;
-gap: 8px;
-margin-bottom: 14px;
-}
-.lec-count-btn {
-width: 34px;
-height: 34px;
-border-radius: 50%;
-border: 1.5px solid var(–border);
-background: white;
-font-size: 18px;
-cursor: pointer;
-display: flex;
-align-items: center;
-justify-content: center;
-font-weight: 700;
-transition: all 0.15s;
-color: var(–ink);
-}
-.lec-count-btn:hover { background: var(–warm); border-color: var(–accent); }
-.lec-count-num {
-font-family: ‘DM Serif Display’, serif;
-font-size: 28px;
-color: var(–ink);
-min-width: 36px;
-text-align: center;
-}
-.lec-count-label { font-size: 11px; color: var(–muted); }
-
-.lec-ring-wrap {
-display: flex;
-justify-content: center;
-gap: 20px;
-margin: 10px 0 14px;
-}
-.lec-ring-item { text-align: center; }
-.lec-ring-label { font-size: 11px; color: var(–muted); margin-top: 6px; font-weight: 600; }
-
-.lec-log-item {
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 9px 0;
-border-bottom: 1px solid var(–border);
-font-size: 13px;
-}
-.lec-log-item:last-child { border-bottom: none; }
-.lec-log-date { font-size: 11px; color: var(–muted); }
-.lec-chips { display: flex; gap: 6px; }
-.lec-chip {
-font-size: 11px;
-font-weight: 700;
-padding: 2px 8px;
-border-radius: 10px;
-}
-.lec-chip.grammar { background: #fce8e3; color: var(–accent); }
-.lec-chip.reading { background: #e3eaf5; color: var(–blue); }
-.lec-chip.listening { background: #e3f0e8; color: var(–green); }
+/* 토스트 */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#1c1c1e;color:#fff;padding:9px 18px;border-radius:20px;font-size:13px;font-weight:600;z-index:999;transition:transform .3s;white-space:nowrap}
+.toast.on{transform:translateX(-50%) translateY(0)}
 </style>
 
 </head>
 <body>
 
-<header>
-  <div class="header-top">
-    <div class="logo">
-      日 スタディ
-      <span>JLPT Study Group</span>
-    </div>
-    <div class="today-badge" id="todayBadge"></div>
-  </div>
-</header>
-
-<nav>
-  <button class="active" onclick="showSection('home', this)">🏠 홈</button>
-  <button onclick="showSection('attendance', this)">✅ 출석</button>
-  <button onclick="showSection('calendar', this)">📅 일정</button>
-  <button onclick="showSection('notices', this)">📌 공지</button>
-  <button onclick="showSection('lecture', this)">📺 인강</button>
-</nav>
-
-<main>
-
-  <!-- HOME -->
-
-  <div id="home" class="section active">
-    <div class="welcome-strip">
-      <h2>안녕하세요! 👋</h2>
-      <p>JLPT N2 목표 스터디그룹</p>
-      <div class="stats-row">
-        <div class="stat-box">
-          <span class="num" id="statTotal">0</span>
-          <div class="lbl">총 세션</div>
-        </div>
-        <div class="stat-box">
-          <span class="num" id="statMyRate">0%</span>
-          <div class="lbl">내 출석률</div>
-        </div>
-        <div class="stat-box">
-          <span class="num" id="statDDay">-</span>
-          <div class="lbl">다음 스터디</div>
-        </div>
-      </div>
-    </div>
-
-```
-<div class="card">
-  <div class="card-title">멤버 출석률</div>
-  <div id="memberProgress"></div>
+<div class="hd">
+  <div class="hd-title">日 스터디 체크<small>JLPT N3 · 2025.07.05</small></div>
+  <div class="dday-box"><b id="ddayNum">-</b><span>D-DAY</span></div>
 </div>
 
-<div class="card">
-  <div class="card-title">다가오는 일정</div>
-  <div id="upcomingEvents"></div>
+<div class="tabs">
+  <button class="tab on" onclick="go('today',this)">✅ 오늘</button>
+  <button class="tab" onclick="go('progress',this)">📊 진도</button>
+  <button class="tab" onclick="go('cal',this)">📅 캘린더</button>
+  <button class="tab" onclick="go('log',this)">📋 기록</button>
 </div>
-```
 
-  </div>
+<div class="wrap">
 
-  <!-- ATTENDANCE -->
+<!-- 오늘 -->
 
-  <div id="attendance" class="section">
-    <div class="card">
-      <div class="session-header">
-        <div class="card-title" style="margin-bottom:0">오늘 출석 체크</div>
-        <div class="session-date-badge" id="sessionDate"></div>
+<div id="today" class="sec on">
+  <div style="text-align:center;font-size:12px;color:#8e8e93;margin-bottom:12px" id="todayLabel"></div>
+  <div class="card">
+    <div class="card-ttl">오늘 인강 들었나요?</div>
+    <div class="chk-row">
+      <div class="chk-left">
+        <div class="chk-ico ico-r">📖</div>
+        <div><div class="chk-name">독해 인강</div><div class="chk-sub">読解 · 전체 10강</div></div>
       </div>
-      <div id="memberChecks"></div>
-      <div class="btn-row" style="margin-top:14px">
-        <button class="btn-primary" onclick="saveAttendance()">💾 저장하기</button>
+      <button class="tog" id="togR" onclick="tog('r')"></button>
+    </div>
+    <div class="chk-row">
+      <div class="chk-left">
+        <div class="chk-ico ico-l">🎧</div>
+        <div><div class="chk-name">청해 인강</div><div class="chk-sub">聴解 · 전체 13강</div></div>
       </div>
+      <button class="tog" id="togL" onclick="tog('l')"></button>
     </div>
-
-```
-<div class="card">
-  <div class="card-title">출석 기록</div>
-  <div id="attendanceHistory"></div>
-</div>
-```
-
-  </div>
-
-  <!-- CALENDAR -->
-
-  <div id="calendar" class="section">
-    <div class="card">
-      <div class="cal-header">
-        <button class="cal-nav" onclick="changeMonth(-1)">◀</button>
-        <div class="cal-month" id="calMonthLabel"></div>
-        <button class="cal-nav" onclick="changeMonth(1)">▶</button>
+    <div class="chk-row">
+      <div class="chk-left">
+        <div class="chk-ico ico-v">✏️</div>
+        <div><div class="chk-name">단어 암기</div><div class="chk-sub">오늘 외운 단어 수</div></div>
       </div>
-      <div class="cal-grid" id="calGrid"></div>
-    </div>
-
-```
-<div class="card">
-  <div class="card-title">📋 이벤트 목록</div>
-  <div id="eventList"></div>
-  <button class="btn-outline" style="width:100%; margin-top:12px" onclick="toggleAddForm()">+ 일정 추가</button>
-  <div class="add-form" id="addEventForm">
-    <div class="form-row">
-      <label>날짜</label>
-      <input type="date" id="evDate">
-    </div>
-    <div class="form-row">
-      <label>제목</label>
-      <input type="text" id="evTitle" placeholder="예: 스터디 8회차, N2 모의고사">
-    </div>
-    <div class="form-row">
-      <label>종류</label>
-      <select id="evType">
-        <option value="study">📚 스터디</option>
-        <option value="exam">📝 시험/모의고사</option>
-        <option value="etc">📌 기타</option>
-      </select>
-    </div>
-    <div class="form-row">
-      <label>메모</label>
-      <textarea id="evMemo" rows="2" placeholder="장소, 범위 등"></textarea>
-    </div>
-    <div class="btn-row">
-      <button class="btn-outline" onclick="toggleAddForm()">취소</button>
-      <button class="btn-primary" onclick="addEvent()">추가</button>
-    </div>
-  </div>
-</div>
-```
-
-  </div>
-
-  <!-- NOTICES -->
-
-  <div id="notices" class="section">
-    <div class="card">
-      <div class="card-title">공지 & 메모 작성</div>
-      <div class="form-row">
-        <label>태그</label>
-        <select id="noticeType">
-          <option value="announce">📢 공지</option>
-          <option value="memo">📝 메모</option>
-          <option value="quiz">🎯 퀴즈/과제</option>
-        </select>
-      </div>
-      <div class="form-row">
-        <label>제목</label>
-        <input type="text" id="noticeTitle" placeholder="공지 제목">
-      </div>
-      <div class="form-row">
-        <label>내용</label>
-        <textarea id="noticeBody" rows="3" placeholder="내용을 입력하세요"></textarea>
-      </div>
-      <div class="form-row">
-        <label>작성자</label>
-        <select id="noticeAuthor">
-          <option value="미정">미정</option>
-          <option value="멤버2">멤버2</option>
-          <option value="멤버3">멤버3</option>
-        </select>
-      </div>
-      <div class="btn-row">
-        <button class="btn-primary" onclick="addNotice()">📌 등록</button>
+      <div class="vctr">
+        <button class="vb" onclick="vc(-1)">−</button>
+        <div class="vn" id="vNum">0</div>
+        <span style="font-size:11px;color:#8e8e93">개</span>
+        <button class="vb" onclick="vc(1)">+</button>
       </div>
     </div>
-
-```
-<div class="card">
-  <div class="card-title">공지 목록</div>
-  <div id="noticeList"></div>
-</div>
-```
-
-  </div>
-
-  <!-- LECTURE -->
-
-  <div id="lecture" class="section">
-
-```
-<!-- D-Day 배너 -->
-<div style="background:linear-gradient(135deg,#1a1a2e,#2d2d4e);border-radius:14px;padding:16px 20px;margin-bottom:14px;color:white;display:flex;justify-content:space-between;align-items:center">
-  <div>
-    <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:4px">JLPT N3 시험일</div>
-    <div style="font-size:15px;font-weight:700">2025년 7월 5일</div>
-    <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px">독해 완강 → 청해 완강 순서</div>
-  </div>
-  <div style="text-align:center;background:rgba(255,255,255,0.1);border-radius:10px;padding:10px 16px">
-    <div style="font-family:'DM Serif Display',serif;font-size:28px;color:#d4a843" id="lecDday">-</div>
-    <div style="font-size:10px;color:rgba(255,255,255,0.5)">D-DAY</div>
+    <button class="save-btn" onclick="save()">💾 오늘 기록 저장</button>
   </div>
 </div>
 
-<!-- 오늘 학습 체크 카드 -->
-<div class="card">
-  <div class="card-title">📺 오늘 학습 체크</div>
+<!-- 진도 -->
 
-  <!-- 독해 -->
-  <div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border)">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-      <span class="lec-badge reading">読解 독해</span>
-      <span style="font-size:11px;color:var(--muted)">전체 10강</span>
-    </div>
-    <div class="lec-today-row">
-      <button class="lec-count-btn" onclick="addCount('reading',-1)">−</button>
-      <div style="text-align:center;flex:1">
-        <div class="lec-count-num" id="cnt-reading">0</div>
-        <div class="lec-count-label">오늘 완료 강수</div>
-      </div>
-      <button class="lec-count-btn" onclick="addCount('reading',1)">+</button>
-    </div>
-    <div id="ring-reading"></div>
+<div id="progress" class="sec">
+  <div class="card">
+    <div class="card-ttl">전체 진도</div>
+    <div id="totalProg"></div>
   </div>
-
-  <!-- 청해 -->
-  <div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border)">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-      <span class="lec-badge listening">聴解 청해</span>
-      <span style="font-size:11px;color:var(--muted)">전체 13강</span>
-    </div>
-    <div class="lec-today-row">
-      <button class="lec-count-btn" onclick="addCount('listening',-1)">−</button>
-      <div style="text-align:center;flex:1">
-        <div class="lec-count-num" id="cnt-listening">0</div>
-        <div class="lec-count-label">오늘 완료 강수</div>
-      </div>
-      <button class="lec-count-btn" onclick="addCount('listening',1)">+</button>
-    </div>
-    <div id="ring-listening"></div>
+  <div class="card">
+    <div class="card-ttl">이번주 진도</div>
+    <div id="weekProg"></div>
   </div>
-
-  <!-- 단어 암기 -->
-  <div style="margin-bottom:14px">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-      <span style="font-size:12px;font-weight:700;color:var(--ink)">📖 오늘 단어 암기</span>
-      <span style="font-size:11px;color:var(--muted)">개수 입력</span>
+  <div class="card" style="background:#fef9e8;border:1px solid #fde68a">
+    <div class="card-ttl" style="color:#b8860b">📌 수강 계획</div>
+    <div style="font-size:12px;color:#555;line-height:1.9">
+      독해 10강 → <b>5주 완강</b> (주 2강)<br>
+      청해 13강 → <b>7주 완강</b> (주 2강)<br>
+      총 12주 · 시험 7월 5일까지 여유 있어요 ✅
     </div>
-    <div style="display:flex;align-items:center;gap:10px">
-      <button class="lec-count-btn" onclick="addVocab(-5)">−5</button>
-      <button class="lec-count-btn" onclick="addVocab(-1)">−</button>
-      <div style="text-align:center;flex:1">
-        <div class="lec-count-num" id="cnt-vocab">0</div>
-        <div class="lec-count-label">오늘 외운 단어</div>
-      </div>
-      <button class="lec-count-btn" onclick="addVocab(1)">+</button>
-      <button class="lec-count-btn" onclick="addVocab(5)">+5</button>
-    </div>
-  </div>
-
-  <div class="btn-row">
-    <button class="btn-primary" onclick="saveLecture()">💾 오늘 기록 저장</button>
   </div>
 </div>
 
-<!-- 전체 진도 -->
-<div class="card">
-  <div class="card-title">전체 진도율</div>
-  <div id="overallProgress"></div>
-  <!-- 주간 페이스 안내 -->
-  <div style="margin-top:10px;padding:10px;background:var(--warm);border-radius:8px;font-size:11px;color:var(--muted);line-height:1.7">
-    📌 8주 완강 목표 페이스<br>
-    독해: 주 <b style="color:var(--accent)">1~2강</b> → 5주차 완강<br>
-    청해: 주 <b style="color:var(--green)">2강</b> → 7~8주차 완강
+<!-- 캘린더 -->
+
+<div id="cal" class="sec">
+  <div class="card">
+    <div class="cal-head">
+      <button class="cal-btn" onclick="mth(-1)">◀</button>
+      <div class="cal-mth" id="calLabel"></div>
+      <button class="cal-btn" onclick="mth(1)">▶</button>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+  </div>
+  <div class="card" style="font-size:11px;color:#8e8e93;line-height:2">
+    <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#34c759;margin-right:4px"></span>공부한 날
+    <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#c84b31;margin-left:10px;margin-right:4px"></span>오늘
+    <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#feeae8;border:1px solid #c84b31;margin-left:10px;margin-right:4px"></span>시험일 (7/5)
   </div>
 </div>
 
 <!-- 기록 -->
-<div class="card">
-  <div class="card-title">학습 기록</div>
-  <div id="lectureLog"></div>
-</div>
-```
 
+<div id="log" class="sec">
+  <div class="card">
+    <div class="card-ttl">최근 학습 기록</div>
+    <div id="logList"></div>
   </div>
+</div>
 
-</main>
-
+</div>
 <div class="toast" id="toast"></div>
 
-<!-- Firebase compat SDK -->
-
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-
 <script>
-// ===== FIREBASE CONFIG =====
-const firebaseConfig = {
-  apiKey: "AIzaSyDgpljUaAuoNh1iYz1Tt6FUxoWbJFG-Rxk",
-  authDomain: "jlpt-mae.firebaseapp.com",
-  projectId: "jlpt-mae",
-  storageBucket: "jlpt-mae.firebasestorage.app",
-  messagingSenderId: "382471244943",
-  appId: "1:382471244943:web:1f4b4263b2752884e9f4fa"
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+// Firebase
+firebase.initializeApp({
+  apiKey:"AIzaSyDgpljUaAuoNh1iYz1Tt6FUxoWbJFG-Rxk",
+  authDomain:"jlpt-mae.firebaseapp.com",
+  projectId:"jlpt-mae",
+  storageBucket:"jlpt-mae.firebasestorage.app",
+  messagingSenderId:"382471244943",
+  appId:"1:382471244943:web:1f4b4263b2752884e9f4fa"
+});
+var db = firebase.firestore();
 
-// ===== FIREBASE HELPERS =====
-async function fbSet(col, docId, data) {
-  await db.collection(col).doc(docId).set(data);
-}
-async function fbGet(col, docId) {
-  const snap = await db.collection(col).doc(docId).get();
-  return snap.exists ? snap.data() : null;
-}
-async function fbAdd(col, data) {
-  return await db.collection(col).add(data);
-}
-async function fbDel(col, docId) {
-  await db.collection(col).doc(docId).delete();
-}
-function fbListen(col, cb) {
-  return db.collection(col).onSnapshot(snap => {
-    cb(snap.docs.map(d => ({ _id: d.id, ...d.data() })));
-  });
-}
+// 상태
+var TODAY = new Date().toISOString().split('T')[0];
+var state = {r:false, l:false, v:0};
+var logs = [];
+var calY = new Date().getFullYear(), calM = new Date().getMonth();
 
-// ===== STATE =====
-const MEMBERS = [
-  { id: 'mijung', name: '미정', avatar: '美', cls: 'a' },
-  { id: 'm2',     name: '멤버2', avatar: '花', cls: 'b' },
-  { id: 'm3',     name: '멤버3', avatar: '星', cls: 'c' },
-];
+// D-Day
+var exam = new Date('2025-07-05T00:00:00');
+var dd = Math.ceil((exam - new Date()) / 86400000);
+document.getElementById('ddayNum').textContent = dd > 0 ? dd : 'D-Day!';
 
-// Local state (synced from Firebase)
-let attendance = [];
-let events = [];
-let notices = [];
-let lecGoals = { grammar: 3, reading: 2, listening: 2 };
-let lecTotals = { grammar: 60, reading: 40, listening: 30 };
-let lecLog = [];
+// 오늘 날짜 표시
+var D = new Date(), DAYS=['일','월','화','수','목','금','토'];
+document.getElementById('todayLabel').textContent =
+  D.getFullYear()+'년 '+(D.getMonth()+1)+'월 '+D.getDate()+'일 '+DAYS[D.getDay()]+'요일';
 
-let todayChecks = {};
-let calYear = new Date().getFullYear();
-let calMonth = new Date().getMonth();
-
-// ===== UTILS =====
-function fmt(d) {
-  return d.toISOString().split('T')[0];
-}
-function today() { return fmt(new Date()); }
-function korDate(str) {
-  const d = new Date(str + 'T00:00:00');
-  return `${d.getMonth()+1}월 ${d.getDate()}일`;
+// 탭
+function go(id, btn) {
+  document.querySelectorAll('.sec').forEach(function(s){s.classList.remove('on');});
+  document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('on');});
+  document.getElementById(id).classList.add('on');
+  btn.classList.add('on');
+  if(id==='cal') renderCal();
+  if(id==='progress') renderProgress();
+  if(id==='log') renderLog();
 }
 
-// ===== NAV =====
-function showSection(id, btn) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
-  if (id === 'calendar') renderCalendar();
-  if (id === 'home') renderHome();
-  if (id === 'attendance') renderAttendance();
-  if (id === 'notices') renderNotices();
-  if (id === 'lecture') initLecture();
+// 토글
+function tog(t) {
+  state[t] = !state[t];
+  document.getElementById(t==='r'?'togR':'togL').classList.toggle('on', state[t]);
 }
 
-// ===== HOME =====
-function renderHome() {
-  const total = attendance.length;
-  document.getElementById('statTotal').textContent = total;
+// 단어
+function vc(d) {
+  state.v = Math.max(0, state.v + d);
+  document.getElementById('vNum').textContent = state.v;
+}
 
-  const myPct = total === 0 ? 0 : Math.round(
-    attendance.filter(s => s.checks[MEMBERS[0].id]).length / total * 100
-  );
-  document.getElementById('statMyRate').textContent = myPct + '%';
+// 저장
+function save() {
+  db.collection('studyLog').doc(TODAY).set({
+    date: TODAY, reading: state.r, listening: state.l, vocab: state.v, ts: Date.now()
+  }).then(function(){ showToast('✅ 저장됐어요!'); })
+  .catch(function(e){ showToast('오류: '+e.message); });
+}
 
-  const upcoming = events
-    .filter(e => e.date >= today())
-    .sort((a, b) => a.date.localeCompare(b.date));
-  const next = upcoming[0];
-  if (next) {
-    const diff = Math.ceil((new Date(next.date + 'T00:00:00') - new Date()) / 86400000);
-    document.getElementById('statDDay').textContent = diff === 0 ? '오늘' : `D-${diff}`;
+// 이번주 월~일
+function weekDates() {
+  var now = new Date(), dow = now.getDay();
+  var mon = new Date(now); mon.setDate(now.getDate()-(dow===0?6:dow-1));
+  var arr = [];
+  for(var i=0;i<7;i++){var d=new Date(mon);d.setDate(mon.getDate()+i);arr.push(d.toISOString().split('T')[0]);}
+  return arr;
+}
+
+// 전체 진도 렌더
+function renderProgress() {
+  var totalR = logs.filter(function(l){return l.reading;}).length;
+  var totalL = logs.filter(function(l){return l.listening;}).length;
+  var pR = Math.min(100, Math.round(totalR/10*100));
+  var pL = Math.min(100, Math.round(totalL/13*100));
+
+  // 지연 체크: 오늘 기준 경과 주수
+  var start = new Date('2025-04-15');
+  var weeksGone = Math.floor((new Date()-start)/604800000);
+  var expectedR = Math.min(10, weeksGone*2);
+  var expectedL = 0; // 독해 완강 후 시작
+  if(totalR >= 10) expectedL = Math.min(13, (weeksGone - 5)*2);
+
+  function statusBadge(done, expected) {
+    if(done >= expected) return '<span class="badge ok">✅ 순조로워요</span>';
+    var behind = expected - done;
+    return '<span class="badge late">⚠️ '+behind+'강 지연</span>';
   }
 
-  // Member progress
-  const mp = document.getElementById('memberProgress');
-  mp.innerHTML = '';
-  MEMBERS.forEach(m => {
-    const cnt = attendance.filter(s => s.checks[m.id]).length;
-    const pct = total === 0 ? 0 : Math.round(cnt / total * 100);
-    mp.innerHTML += `
-      <div class="progress-wrap">
-        <div class="progress-label"><span>${m.name}</span><span>${cnt}/${total} (${pct}%)</span></div>
-        <div class="progress-bar"><div class="progress-fill fill-${m.cls === 'a' ? 'accent' : m.cls === 'b' ? 'green' : 'blue'}" style="width:${pct}%"></div></div>
-      </div>`;
-  });
+  document.getElementById('totalProg').innerHTML =
+    '<div class="prog-blk">'+
+      '<div class="prog-head"><div class="prog-name">📖 독해</div><div class="prog-sub">'+totalR+'/10강</div></div>'+
+      '<div class="bar"><div class="fill fr" style="width:'+pR+'%"></div></div>'+
+      '<div class="prog-foot"><div class="prog-num">진도율 '+pR+'%</div>'+statusBadge(totalR, expectedR)+'</div>'+
+    '</div>'+
+    '<div class="prog-blk">'+
+      '<div class="prog-head"><div class="prog-name">🎧 청해</div><div class="prog-sub">'+(totalR<10?'독해 완강 후 시작':totalL+'/13강')+'</div></div>'+
+      (totalR<10
+        ? '<div style="font-size:11px;color:#8e8e93;padding:4px 0">독해 완강 후 청해 시작이에요</div>'
+        : '<div class="bar"><div class="fill fl" style="width:'+pL+'%"></div></div><div class="prog-foot"><div class="prog-num">진도율 '+pL+'%</div>'+statusBadge(totalL, expectedL)+'</div>'
+      )+
+    '</div>';
 
-  // Upcoming
-  const ue = document.getElementById('upcomingEvents');
-  if (upcoming.length === 0) {
-    ue.innerHTML = '<p style="font-size:13px;color:var(--muted);padding:8px 0">등록된 일정이 없어요</p>';
-  } else {
-    ue.innerHTML = upcoming.slice(0, 3).map(e => `
-      <div class="event-item">
-        <div class="event-dot ${e.type}"></div>
-        <div class="event-text">
-          <div class="event-title">${e.title}</div>
-          <div class="event-meta">${korDate(e.date)}${e.memo ? ' · ' + e.memo : ''}</div>
-        </div>
-      </div>`).join('');
+  // 이번주
+  var week = weekDates();
+  var wLogs = logs.filter(function(l){return week.indexOf(l.date)>=0;});
+  var wR = wLogs.filter(function(l){return l.reading;}).length;
+  var wL = wLogs.filter(function(l){return l.listening;}).length;
+  var wV = wLogs.reduce(function(s,l){return s+(l.vocab||0);},0);
+
+  // 이번주 목표: 독해 미완이면 독해 2강, 완이면 청해 2강
+  var wGoalR = totalR < 10 ? 2 : 0;
+  var wGoalL = totalR >= 10 ? 2 : 0;
+
+  var rDots = week.map(function(dt){var h=wLogs.find(function(l){return l.date===dt;});return '<div class="wd'+(h&&h.reading?' r':'')+'"></div>';}).join('');
+  var lDots = week.map(function(dt){var h=wLogs.find(function(l){return l.date===dt;});return '<div class="wd'+(h&&h.listening?' l':'')+'"></div>';}).join('');
+
+  document.getElementById('weekProg').innerHTML =
+    (wGoalR > 0 ?
+      '<div class="prog-blk">'+
+        '<div class="prog-head"><div class="prog-name">📖 독해</div><div class="prog-sub">이번주 목표 <b>'+wGoalR+'강</b></div></div>'+
+        '<div class="bar"><div class="fill fr" style="width:'+Math.min(100,Math.round(wR/wGoalR*100))+'%"></div></div>'+
+        '<div class="prog-foot"><div class="prog-num">'+wR+'/'+wGoalR+'강 '+(wR>=wGoalR?'✅':'')+'</div></div>'+
+        '<div class="week-dots">'+rDots+'</div>'+
+      '</div>' : '') +
+    (wGoalL > 0 ?
+      '<div class="prog-blk">'+
+        '<div class="prog-head"><div class="prog-name">🎧 청해</div><div class="prog-sub">이번주 목표 <b>'+wGoalL+'강</b></div></div>'+
+        '<div class="bar"><div class="fill fl" style="width:'+Math.min(100,Math.round(wL/wGoalL*100))+'%"></div></div>'+
+        '<div class="prog-foot"><div class="prog-num">'+wL+'/'+wGoalL+'강 '+(wL>=wGoalL?'✅':'')+'</div></div>'+
+        '<div class="week-dots">'+lDots+'</div>'+
+      '</div>' : '') +
+    '<div class="prog-blk"><div class="prog-head"><div class="prog-name">✏️ 단어</div><div class="prog-sub">이번주 총 <b>'+wV+'</b>개</div></div></div>';
+}
+
+// 캘린더
+function renderCal() {
+  document.getElementById('calLabel').textContent = calY+'년 '+(calM+1)+'월';
+  var g = document.getElementById('calGrid');
+  var DL = ['일','월','화','수','목','금','토'];
+  var h = DL.map(function(d){return '<div class="cal-dl">'+d+'</div>';}).join('');
+  var first = new Date(calY,calM,1).getDay();
+  var last = new Date(calY,calM+1,0).getDate();
+  var todayStr = TODAY;
+  var examStr = '2025-07-05';
+  for(var i=0;i<first;i++) h+='<div></div>';
+  for(var d=1;d<=last;d++){
+    var ds = calY+'-'+String(calM+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    var isToday = ds===todayStr;
+    var isExam = ds===examStr;
+    var studied = logs.some(function(l){return l.date===ds && (l.reading||l.listening);});
+    var cls = isExam?'exam':isToday?'today':'';
+    if(studied&&!isToday) cls+=' has';
+    h+='<div class="cal-d '+cls+'">'+d+'</div>';
   }
+  g.innerHTML = h;
+}
+function mth(dir){calM+=dir;if(calM>11){calM=0;calY++;}if(calM<0){calM=11;calY--;}renderCal();}
+
+// 기록
+function renderLog() {
+  var el = document.getElementById('logList');
+  var sorted = logs.slice().sort(function(a,b){return b.date.localeCompare(a.date);});
+  if(sorted.length===0){el.innerHTML='<p style="font-size:12px;color:#8e8e93">아직 기록 없음</p>';return;}
+  el.innerHTML = sorted.slice(0,14).map(function(l){
+    var md = l.date.slice(5).replace('-','/');
+    return '<div class="log-item"><div class="log-date">'+md+'</div><div class="chips">'+
+      (l.reading?'<span class="chip chip-r">독해 ✓</span>':'')+
+      (l.listening?'<span class="chip chip-l">청해 ✓</span>':'')+
+      (l.vocab?'<span class="chip chip-v">단어 '+l.vocab+'개</span>':'')+
+    '</div></div>';
+  }).join('');
 }
 
-// ===== ATTENDANCE =====
-function renderAttendance() {
-  document.getElementById('sessionDate').textContent = korDate(today());
-  
-  const mc = document.getElementById('memberChecks');
-  mc.innerHTML = '';
-  MEMBERS.forEach(m => {
-    mc.innerHTML += `
-      <div class="member-row">
-        <div class="avatar ${m.cls}">${m.avatar}</div>
-        <div class="member-info">
-          <div class="member-name">${m.name}</div>
-          <div class="member-sub">クリックで出席</div>
-        </div>
-        <button class="check-btn ${todayChecks[m.id] ? 'checked' : ''}" 
-          onclick="toggleCheck('${m.id}', this)">
-          ${todayChecks[m.id] ? '✓' : ''}
-        </button>
-      </div>`;
-  });
+// 토스트
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');setTimeout(function(){t.classList.remove('on');},2200);}
 
-  renderHistory();
-}
-
-function toggleCheck(id, btn) {
-  todayChecks[id] = !todayChecks[id];
-  btn.classList.toggle('checked');
-  btn.textContent = todayChecks[id] ? '✓' : '';
-}
-
-async function saveAttendance() {
-  const record = { date: today(), checks: { ...todayChecks } };
-  await fbSet('attendance', today(), record);
-  showToast('✅ 출석이 저장됐어요!');
-  renderHome();
-}
-
-function renderHistory() {
-  const el = document.getElementById('attendanceHistory');
-  const sorted = [...attendance].sort((a, b) => b.date.localeCompare(a.date));
-  if (sorted.length === 0) {
-    el.innerHTML = '<p style="font-size:13px;color:var(--muted);padding:8px 0">아직 출석 기록이 없어요</p>';
-    return;
+// Firebase 실시간
+db.collection('studyLog').onSnapshot(function(snap){
+  logs = snap.docs.map(function(d){return Object.assign({_id:d.id},d.data());});
+  var tl = logs.find(function(l){return l.date===TODAY;});
+  if(tl){
+    state.r=tl.reading||false; state.l=tl.listening||false; state.v=tl.vocab||0;
+    document.getElementById('togR').classList.toggle('on',state.r);
+    document.getElementById('togL').classList.toggle('on',state.l);
+    document.getElementById('vNum').textContent=state.v;
   }
-  el.innerHTML = sorted.slice(0, 8).map(s => `
-    <div class="history-item">
-      <div>
-        <div style="font-size:13px;font-weight:600">${korDate(s.date)}</div>
-        <div class="history-date">${s.date}</div>
-      </div>
-      <div class="history-dots">
-        ${MEMBERS.map(m => `<div class="dot ${s.checks[m.id] ? 'present' : 'absent'}" title="${m.name}">${m.avatar}</div>`).join('')}
-      </div>
-    </div>`).join('');
-}
-
-// ===== CALENDAR =====
-function renderCalendar() {
-  const label = document.getElementById('calMonthLabel');
-  label.textContent = `${calYear}년 ${calMonth + 1}월`;
-
-  const grid = document.getElementById('calGrid');
-  const days = ['일', '월', '화', '수', '목', '금', '토'];
-  let html = days.map(d => `<div class="cal-day-label">${d}</div>`).join('');
-
-  const first = new Date(calYear, calMonth, 1).getDay();
-  const last = new Date(calYear, calMonth + 1, 0).getDate();
-  const todayStr = today();
-
-  for (let i = 0; i < first; i++) html += `<div class="cal-cell empty"></div>`;
-  for (let d = 1; d <= last; d++) {
-    const ds = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const isToday = ds === todayStr;
-    const hasEvent = events.some(e => e.date === ds);
-    html += `<div class="cal-cell ${isToday ? 'today' : ''} ${hasEvent ? 'has-event' : ''}">${d}</div>`;
-  }
-  grid.innerHTML = html;
-  renderEventList();
-}
-
-function changeMonth(dir) {
-  calMonth += dir;
-  if (calMonth > 11) { calMonth = 0; calYear++; }
-  if (calMonth < 0) { calMonth = 11; calYear--; }
-  renderCalendar();
-}
-
-function renderEventList() {
-  const el = document.getElementById('eventList');
-  const monthStr = `${calYear}-${String(calMonth+1).padStart(2,'0')}`;
-  const monthEvents = events
-    .filter(e => e.date.startsWith(monthStr))
-    .sort((a, b) => a.date.localeCompare(b.date));
-
-  if (monthEvents.length === 0) {
-    el.innerHTML = '<p style="font-size:13px;color:var(--muted);padding:8px 0">이달 일정 없음</p>';
-    return;
-  }
-  el.innerHTML = monthEvents.map(e => `
-    <div class="event-item">
-      <div class="event-dot ${e.type}"></div>
-      <div class="event-text">
-        <div class="event-title">${e.title}</div>
-        <div class="event-meta">${korDate(e.date)}${e.memo ? ' · ' + e.memo : ''}</div>
-      </div>
-      <button onclick="deleteEvent('${e._id}')" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:0 4px">×</button>
-    </div>`).join('');
-}
-
-function toggleAddForm() {
-  document.getElementById('addEventForm').classList.toggle('open');
-  document.getElementById('evDate').value = today();
-}
-
-async function addEvent() {
-  const date = document.getElementById('evDate').value;
-  const title = document.getElementById('evTitle').value.trim();
-  const type = document.getElementById('evType').value;
-  const memo = document.getElementById('evMemo').value.trim();
-  if (!date || !title) { showToast('날짜와 제목을 입력해주세요'); return; }
-  await fbAdd('events', { date, title, type, memo });
-  document.getElementById('evTitle').value = '';
-  document.getElementById('evMemo').value = '';
-  document.getElementById('addEventForm').classList.remove('open');
-  showToast('📅 일정이 추가됐어요!');
-}
-
-async function deleteEvent(id) {
-  await fbDel('events', id);
-  showToast('삭제됐어요');
-}
-
-// ===== NOTICES =====
-function renderNotices() {
-  const el = document.getElementById('noticeList');
-  const sorted = [...notices].sort((a, b) => (b.ts || 0) - (a.ts || 0));
-  if (sorted.length === 0) {
-    el.innerHTML = '<p style="font-size:13px;color:var(--muted);padding:8px 0">등록된 공지가 없어요</p>';
-    return;
-  }
-  el.innerHTML = sorted.map(n => `
-    <div class="notice-item">
-      <div class="notice-top">
-        <span class="notice-tag ${n.type}">${n.type === 'announce' ? '📢 공지' : n.type === 'memo' ? '📝 메모' : '🎯 퀴즈'}</span>
-        <span class="notice-date">${korDate(n.date)}</span>
-      </div>
-      <div class="notice-title">${n.title}</div>
-      <div class="notice-body">${n.body}</div>
-      <div class="notice-author">
-        <span>✍️ ${n.author}</span>
-        <span style="margin-left:auto;cursor:pointer;color:var(--muted)" onclick="deleteNotice('${n._id}')">삭제</span>
-      </div>
-    </div>`).join('');
-}
-
-async function addNotice() {
-  const type = document.getElementById('noticeType').value;
-  const title = document.getElementById('noticeTitle').value.trim();
-  const body = document.getElementById('noticeBody').value.trim();
-  const author = document.getElementById('noticeAuthor').value;
-  if (!title || !body) { showToast('제목과 내용을 입력해주세요'); return; }
-  await fbAdd('notices', { type, title, body, author, date: today(), ts: Date.now() });
-  document.getElementById('noticeTitle').value = '';
-  document.getElementById('noticeBody').value = '';
-  showToast('📌 공지가 등록됐어요!');
-}
-
-async function deleteNotice(id) {
-  await fbDel('notices', id);
-}
-
-// ===== LECTURE =====
-const SUBJECTS = ['reading', 'listening'];
-const SUBJECT_KOR = { reading: '독해', listening: '청해' };
-
-let lecGoals = { reading: 1, listening: 1, grammar: 0 };
-let lecTotals = { reading: 10, listening: 13, grammar: 0 };
-let lecLog = [];
-let todayLec = { reading: 0, listening: 0, vocab: 0 };
-let curSubject = 'reading';
-
-function addVocab(delta) {
-  todayLec.vocab = Math.max(0, todayLec.vocab + delta);
-  document.getElementById('cnt-vocab').textContent = todayLec.vocab;
-}
-
-function saveGoal(subj) { /* handled by async version above */ }
-
-function addCount(subj, delta) {
-  todayLec[subj] = Math.max(0, todayLec[subj] + delta);
-  document.getElementById('cnt-' + subj).textContent = todayLec[subj];
-  renderRing(subj);
-}
-
-function renderRing(subj) {
-  const el = document.getElementById('ring-' + subj);
-  if (!el) return;
-  const done = todayLec[subj] || 0;
-  const goal = lecGoals[subj] || 1;
-  const pct = Math.min(100, Math.round(done / goal * 100));
-  const color = subj === 'reading' ? '#2d5f8a' : '#4a7c59';
-  const r = 28, cx = 34, cy = 34, stroke = 6;
-  const circ = 2 * Math.PI * r;
-  const dash = (pct / 100) * circ;
-  el.innerHTML = `
-    <div style="display:flex;align-items:center;gap:12px;padding:4px 0">
-      <svg width="68" height="68" viewBox="0 0 68 68">
-        <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#f0ebe3" stroke-width="${stroke}"/>
-        <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${color}" stroke-width="${stroke}"
-          stroke-dasharray="${dash} ${circ}" stroke-dashoffset="${circ/4}"
-          stroke-linecap="round" style="transition:stroke-dasharray 0.4s ease"/>
-        <text x="${cx}" y="${cy+5}" text-anchor="middle" font-size="13" font-weight="700" fill="${color}" font-family="DM Serif Display,serif">${pct}%</text>
-      </svg>
-      <div>
-        <div style="font-size:13px;font-weight:700;color:var(--ink)">${done} / ${goal}강 완료</div>
-        <div style="font-size:11px;color:var(--muted);margin-top:3px">${done >= goal ? '🎉 오늘 목표 달성!' : `${goal - done}강 남았어요`}</div>
-      </div>
-    </div>`;
-}
-
-async function saveLecture() {
-  await fbSet('lecLog', today(), { date: today(), reading: todayLec.reading, listening: todayLec.listening, vocab: todayLec.vocab || 0 });
-  await fbSet('lecSettings', 'goals', { goals: lecGoals, totals: lecTotals });
-  showToast('📺 오늘 학습 저장됐어요!');
-}
-
-async function saveGoal(subj) {
-  lecGoals[subj] = parseInt(document.getElementById('goal-' + subj).value) || 1;
-  lecTotals[subj] = parseInt(document.getElementById('total-' + subj).value) || 1;
-  await fbSet('lecSettings', 'goals', { goals: lecGoals, totals: lecTotals });
-  renderRing(subj);
-  renderOverallProgress();
-}
-
-function renderOverallProgress() {
-  const el = document.getElementById('overallProgress');
-  if (!el) return;
-  el.innerHTML = SUBJECTS.map(s => {
-    const total = lecLog.reduce((sum, l) => sum + (l[s] || 0), 0);
-    const totalCap = lecTotals[s];
-    const pct = Math.min(100, Math.round(total / totalCap * 100));
-    const color = s === 'reading' ? 'blue' : 'green';
-    return `
-      <div class="progress-wrap">
-        <div class="progress-label">
-          <span>${SUBJECT_KOR[s]}</span>
-          <span>${total} / ${totalCap}강 (${pct}%)</span>
-        </div>
-        <div class="progress-bar">
-          <div class="progress-fill fill-${color}" style="width:${pct}%"></div>
-        </div>
-      </div>`;
-  }).join('') + (() => {
-    const totalVocab = lecLog.reduce((sum, l) => sum + (l.vocab || 0), 0);
-    return `<div class="progress-wrap">
-      <div class="progress-label"><span>📖 누적 단어</span><span>${totalVocab}개</span></div>
-    </div>`;
-  })();
-}
-
-function renderLectureLog() {
-  const el = document.getElementById('lectureLog');
-  if (!el) return;
-  const sorted = [...lecLog].sort((a, b) => b.date.localeCompare(a.date));
-  if (sorted.length === 0) {
-    el.innerHTML = '<p style="font-size:13px;color:var(--muted);padding:8px 0">아직 기록이 없어요</p>';
-    return;
-  }
-  el.innerHTML = sorted.slice(0, 10).map(l => `
-    <div class="lec-log-item">
-      <div>
-        <div style="font-size:13px;font-weight:600">${korDate(l.date)}</div>
-        <div class="lec-log-date">${l.date}</div>
-      </div>
-      <div class="lec-chips">
-        ${l.reading ? `<span class="lec-chip reading">読 ${l.reading}강</span>` : ''}
-        ${l.listening ? `<span class="lec-chip listening">聴 ${l.listening}강</span>` : ''}
-        ${l.vocab ? `<span class="lec-chip" style="background:#fef8e7;color:#b8860b">📖 ${l.vocab}개</span>` : ''}
-      </div>
-    </div>`).join('');
-}
-
-function initLecture() {
-  // D-Day
-  const examDate = new Date('2025-07-05T00:00:00');
-  const diff = Math.ceil((examDate - new Date()) / 86400000);
-  const ddEl = document.getElementById('lecDday');
-  if (ddEl) ddEl.textContent = diff > 0 ? diff : 'D-Day!';
-
-  // Load today's log
-  const existing = lecLog.find(l => l.date === today());
-  if (existing) {
-    todayLec = { reading: existing.reading || 0, listening: existing.listening || 0, vocab: existing.vocab || 0 };
-  } else {
-    todayLec = { reading: 0, listening: 0, vocab: 0 };
-  }
-
-  SUBJECTS.forEach(s => {
-    const cntEl = document.getElementById('cnt-' + s);
-    if (cntEl) cntEl.textContent = todayLec[s];
-    renderRing(s);
-  });
-  const vocabEl = document.getElementById('cnt-vocab');
-  if (vocabEl) vocabEl.textContent = todayLec.vocab;
-
-  renderOverallProgress();
-  renderLectureLog();
-}
-
-
-// ===== TOAST =====
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2200);
-}
-
-// ===== INIT with Firebase realtime listeners =====
-const now = new Date();
-document.getElementById('todayBadge').textContent = `${now.getMonth()+1}월 ${now.getDate()}일`;
-
-// N3 기본 세팅
-lecGoals = { reading: 1, listening: 1, grammar: 0 };
-lecTotals = { reading: 10, listening: 13, grammar: 0 };
-
-// 1) 즉시 렌더링 (Firebase 연결 전에도 화면 표시)
-renderHome();
-renderHistory();
-renderNotices();
-
-// 2) Firebase 백그라운드 연결
-function initApp() {
-  try {
-    fbListen('attendance', docs => {
-      attendance = docs;
-      renderHistory();
-      renderHome();
-    });
-    fbListen('events', docs => {
-      events = docs;
-      renderHome();
-      // 캘린더 탭이 열려있을 때만 렌더
-      if (document.getElementById('calendar').classList.contains('active')) renderCalendar();
-    });
-    fbListen('notices', docs => {
-      notices = docs;
-      renderNotices();
-    });
-    fbListen('lecLog', docs => {
-      lecLog = docs;
-      renderOverallProgress();
-      renderLectureLog();
-    });
-    // 강의 설정 로드
-    fbGet('lecSettings', 'goals').then(s => {
-      if (s) { lecGoals = s.goals || lecGoals; lecTotals = s.totals || lecTotals; }
-    }).catch(() => {});
-  } catch(e) {
-    console.error('Firebase init error:', e);
-  }
-}
-
-initApp();
+  if(document.getElementById('progress').classList.contains('on')) renderProgress();
+  if(document.getElementById('cal').classList.contains('on')) renderCal();
+  if(document.getElementById('log').classList.contains('on')) renderLog();
+});
 </script>
 
 </body>
