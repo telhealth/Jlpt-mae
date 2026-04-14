@@ -919,10 +919,13 @@ border-radius: 10px;
 
 <div class="toast" id="toast"></div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc, collection, getDocs, addDoc, deleteDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+<!-- Firebase compat SDK -->
 
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+<script>
 // ===== FIREBASE CONFIG =====
 const firebaseConfig = {
   apiKey: "AIzaSyDgpljUaAuoNh1iYz1Tt6FUxoWbJFG-Rxk",
@@ -932,36 +935,25 @@ const firebaseConfig = {
   messagingSenderId: "382471244943",
   appId: "1:382471244943:web:1f4b4263b2752884e9f4fa"
 };
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
-// ===== STATE =====
-const MEMBERS = [
-  { id: 'mijung', name: '미정', avatar: '美', cls: 'a' },
-  { id: 'm2',     name: '멤버2', avatar: '花', cls: 'b' },
-  { id: 'm3',     name: '멤버3', avatar: '星', cls: 'c' },
-];
-
-// Firebase helpers
+// ===== FIREBASE HELPERS =====
 async function fbSet(col, docId, data) {
-  await setDoc(doc(db, col, docId), data);
+  await db.collection(col).doc(docId).set(data);
 }
 async function fbGet(col, docId) {
-  const snap = await getDoc(doc(db, col, docId));
-  return snap.exists() ? snap.data() : null;
-}
-async function fbGetAll(col) {
-  const snap = await getDocs(collection(db, col));
-  return snap.docs.map(d => ({ _id: d.id, ...d.data() }));
+  const snap = await db.collection(col).doc(docId).get();
+  return snap.exists ? snap.data() : null;
 }
 async function fbAdd(col, data) {
-  return await addDoc(collection(db, col), data);
+  return await db.collection(col).add(data);
 }
 async function fbDel(col, docId) {
-  await deleteDoc(doc(db, col, docId));
+  await db.collection(col).doc(docId).delete();
 }
 function fbListen(col, cb) {
-  return onSnapshot(collection(db, col), snap => {
+  return db.collection(col).onSnapshot(snap => {
     cb(snap.docs.map(d => ({ _id: d.id, ...d.data() })));
   });
 }
