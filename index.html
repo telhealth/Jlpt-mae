@@ -11,110 +11,128 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:#f2f2f7;min-height:100vh}
 
-/* 헤더 */
-.hd{background:#1a1a2e;padding:16px 18px;display:flex;align-items:center;justify-content:space-between}
-.hd-title{color:#d4a843;font-size:17px;font-weight:700;letter-spacing:1.5px}
-.hd-title small{display:block;color:rgba(255,255,255,.4);font-size:10px;font-weight:400;margin-top:2px;letter-spacing:0}
-.dday-box{background:rgba(255,255,255,.1);border-radius:10px;padding:7px 13px;text-align:center}
-.dday-box b{display:block;font-family:Georgia,serif;font-size:22px;color:#d4a843;line-height:1}
-.dday-box span{font-size:9px;color:rgba(255,255,255,.4);margin-top:2px;display:block}
+.hd{background:#1a1a2e;padding:15px 18px;display:flex;align-items:center;justify-content:space-between}
+.hd-left h1{color:#d4a843;font-size:17px;font-weight:700;letter-spacing:1.5px}
+.hd-left p{color:rgba(255,255,255,.4);font-size:10px;margin-top:2px}
+.dday{background:rgba(255,255,255,.1);border-radius:10px;padding:6px 12px;text-align:center}
+.dday b{display:block;font-family:Georgia,serif;font-size:21px;color:#d4a843;line-height:1}
+.dday span{font-size:9px;color:rgba(255,255,255,.4)}
 
-/* 탭 */
 .tabs{display:flex;background:#fff;border-bottom:1px solid #e5e5ea}
-.tab{flex:1;padding:11px 4px;border:none;background:transparent;font-size:12px;font-weight:500;color:#8e8e93;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
+.tab{flex:1;padding:10px 2px;border:none;background:transparent;font-size:11px;font-weight:500;color:#8e8e93;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap}
 .tab.on{color:#c84b31;border-bottom-color:#c84b31;font-weight:700}
 
 .wrap{padding:14px;max-width:430px;margin:0 auto}
 .sec{display:none}.sec.on{display:block}
 
-/* 카드 */
-.card{background:#fff;border-radius:13px;padding:16px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.card-ttl{font-size:10px;font-weight:700;color:#8e8e93;letter-spacing:1px;text-transform:uppercase;margin-bottom:13px}
+.card{background:#fff;border-radius:13px;padding:15px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.ct{font-size:10px;font-weight:700;color:#8e8e93;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
 
-/* 오늘 체크 */
-.chk-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid #f2f2f7}
-.chk-row:last-of-type{border-bottom:none}
-.chk-left{display:flex;align-items:center;gap:10px}
-.chk-ico{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px}
+/* 오늘 입력 */
+.input-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid #f2f2f7}
+.input-row:last-of-type{border-bottom:none;padding-bottom:0}
+.ir-left{display:flex;align-items:center;gap:10px}
+.ico{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
 .ico-r{background:#eef3fb}.ico-l{background:#eaf6ef}.ico-v{background:#fef9e8}
-.chk-name{font-size:13px;font-weight:600;color:#1c1c1e}
-.chk-sub{font-size:10px;color:#8e8e93;margin-top:1px}
-.tog{width:50px;height:28px;border-radius:14px;background:#d1d1d6;border:none;cursor:pointer;position:relative;transition:background .25s;flex-shrink:0}
-.tog::after{content:’’;position:absolute;width:22px;height:22px;border-radius:50%;background:#fff;top:3px;left:3px;transition:left .25s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
-.tog.on{background:#34c759}.tog.on::after{left:25px}
+.ir-name{font-size:13px;font-weight:600;color:#1c1c1e}
+.ir-sub{font-size:10px;color:#8e8e93;margin-top:1px}
+.counter{display:flex;align-items:center;gap:7px}
+.cb{width:30px;height:30px;border-radius:50%;border:1.5px solid #d1d1d6;background:#fff;font-size:16px;font-weight:700;color:#444;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.cb:active{background:#f2f2f7;border-color:#c84b31}
+.cnum{font-size:20px;font-weight:700;color:#1c1c1e;min-width:28px;text-align:center}
+.cunit{font-size:11px;color:#8e8e93}
 
-/* 단어 */
-.vctr{display:flex;align-items:center;gap:8px}
-.vb{width:30px;height:30px;border-radius:50%;border:1.5px solid #d1d1d6;background:#fff;font-size:16px;font-weight:700;color:#333;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.vb:active{background:#f2f2f7}
-.vn{font-size:22px;font-weight:700;color:#1c1c1e;min-width:36px;text-align:center}
+/* 메모 */
+.memo-wrap{margin-top:12px;padding-top:12px;border-top:1px solid #f2f2f7}
+.memo-wrap label{font-size:11px;color:#8e8e93;display:block;margin-bottom:6px;font-weight:600}
+.memo-input{width:100%;padding:9px 11px;border:1px solid #e5e5ea;border-radius:9px;font-family:inherit;font-size:13px;color:#1c1c1e;outline:none;resize:none;background:#fafafa}
+.memo-input:focus{border-color:#c84b31;background:#fff}
 
-/* 진도 */
-.prog-blk{margin-bottom:16px}
-.prog-blk:last-child{margin-bottom:0}
-.prog-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
-.prog-name{font-size:13px;font-weight:600;color:#1c1c1e}
-.prog-sub{font-size:11px;color:#8e8e93}
-.bar{height:7px;background:#f2f2f7;border-radius:10px;overflow:hidden;margin-bottom:5px}
-.fill{height:100%;border-radius:10px;transition:width .6s}
-.fr{background:#2d5f8a}.fl{background:#4a7c59}
-.prog-foot{display:flex;justify-content:space-between;align-items:center}
-.prog-num{font-size:11px;color:#8e8e93}
-.badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:8px}
-.ok{background:#e8f8ee;color:#34a853}
-.late{background:#feeae8;color:#c84b31}
-.ontrack{background:#e8f0fa;color:#2d5f8a}
+.save-btn{width:100%;padding:12px;background:#c84b31;color:#fff;border:none;border-radius:11px;font-size:14px;font-weight:700;cursor:pointer;margin-top:12px}
+.save-btn:active{opacity:.85}
 
-/* 주간 도트 */
-.week-dots{display:flex;gap:3px;margin-top:6px}
-.wd{flex:1;height:5px;border-radius:3px;background:#f2f2f7}
-.wd.r{background:#2d5f8a}.wd.l{background:#4a7c59}
-
-/* 캘린더 */
-.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.cal-mth{font-size:16px;font-weight:700;color:#1c1c1e}
-.cal-btn{background:none;border:1px solid #e5e5ea;border-radius:8px;width:30px;height:30px;cursor:pointer;font-size:13px;color:#333}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center}
-.cal-dl{font-size:10px;color:#8e8e93;padding:4px 0;font-weight:600}
-.cal-dl:first-child{color:#c84b31}.cal-dl:last-child{color:#2d5f8a}
-.cal-d{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;border-radius:8px;position:relative;cursor:default}
-.cal-d.today{background:#c84b31;color:#fff;font-weight:700;border-radius:50%}
-.cal-d.has::after{content:’’;position:absolute;bottom:2px;width:4px;height:4px;border-radius:50%;background:#34c759}
-.cal-d.today.has::after{background:#fff}
-.cal-d.exam{background:#feeae8;color:#c84b31;font-weight:700;border-radius:50%}
-
-/* 로그 */
-.log-item{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #f2f2f7}
-.log-item:last-child{border-bottom:none}
-.log-date{font-size:11px;color:#8e8e93}
-.chips{display:flex;gap:4px;flex-wrap:wrap}
+/* 멤버 현황 */
+.member-card{display:flex;align-items:flex-start;gap:11px;padding:11px 0;border-bottom:1px solid #f2f2f7}
+.member-card:last-child{border-bottom:none;padding-bottom:0}
+.m-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0}
+.av-a{background:#fce8e3;color:#c84b31}.av-b{background:#e3f0e8;color:#4a7c59}.av-c{background:#e3eaf5;color:#2d5f8a}
+.m-info{flex:1}
+.m-name{font-size:13px;font-weight:600;color:#1c1c1e}
+.m-today{font-size:11px;color:#555;margin-top:3px;line-height:1.5}
+.m-memo{font-size:11px;color:#8e8e93;margin-top:3px;font-style:italic}
+.m-none{font-size:11px;color:#c7c7cc;margin-top:3px}
+.chips{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
 .chip{font-size:10px;font-weight:600;padding:2px 7px;border-radius:7px}
 .chip-r{background:#eef3fb;color:#2d5f8a}
 .chip-l{background:#eaf6ef;color:#4a7c59}
 .chip-v{background:#fef9e8;color:#b8860b}
 
-/* 저장 버튼 */
-.save-btn{width:100%;padding:13px;background:#c84b31;color:#fff;border:none;border-radius:11px;font-size:14px;font-weight:700;cursor:pointer;margin-top:13px;transition:opacity .2s}
-.save-btn:active{opacity:.8}
+/* 진도 */
+.prog-blk{margin-bottom:15px}.prog-blk:last-child{margin-bottom:0}
+.prog-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
+.prog-name{font-size:13px;font-weight:600;color:#1c1c1e}
+.bar{height:7px;background:#f2f2f7;border-radius:10px;overflow:hidden;margin-bottom:5px}
+.fill{height:100%;border-radius:10px;transition:width .6s}
+.fr{background:#2d5f8a}.fl{background:#4a7c59}
+.prog-foot{display:flex;justify-content:space-between;align-items:center}
+.prog-pct{font-size:11px;color:#8e8e93}
+.badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:8px}
+.ok{background:#e8f8ee;color:#34a853}
+.late{background:#feeae8;color:#c84b31}
+.week-dots{display:flex;gap:3px;margin-top:6px}
+.wd{flex:1;height:5px;border-radius:3px;background:#f2f2f7}
+.wd.r{background:#2d5f8a}.wd.l{background:#4a7c59}
+
+/* 캘린더 */
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
+.cal-mth{font-size:15px;font-weight:700;color:#1c1c1e}
+.cal-nav{background:none;border:1px solid #e5e5ea;border-radius:7px;width:29px;height:29px;cursor:pointer;font-size:12px;color:#333}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center}
+.cal-dl{font-size:10px;color:#8e8e93;padding:4px 0;font-weight:600}
+.cal-dl:first-child{color:#c84b31}.cal-dl:last-child{color:#2d5f8a}
+.cal-d{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;border-radius:8px;position:relative}
+.cal-d.today{background:#c84b31;color:#fff;font-weight:700;border-radius:50%}
+.cal-d.has::after{content:’’;position:absolute;bottom:2px;width:4px;height:4px;border-radius:50%;background:#34c759}
+.cal-d.today.has::after{background:#fff}
+.cal-d.exam{background:#feeae8;border-radius:50%}
+
+/* 기록 */
+.log-item{padding:11px 0;border-bottom:1px solid #f2f2f7}
+.log-item:last-child{border-bottom:none}
+.log-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.log-date{font-size:11px;font-weight:600;color:#8e8e93}
+.log-memo{font-size:12px;color:#555;margin-top:4px;line-height:1.5}
 
 /* 토스트 */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#1c1c1e;color:#fff;padding:9px 18px;border-radius:20px;font-size:13px;font-weight:600;z-index:999;transition:transform .3s;white-space:nowrap}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(80px);background:#1c1c1e;color:#fff;padding:9px 18px;border-radius:20px;font-size:13px;font-weight:600;z-index:999;transition:transform .3s;white-space:nowrap}
 .toast.on{transform:translateX(-50%) translateY(0)}
+
+/* 지연 알람 배너 */
+.alert-banner{background:#feeae8;border:1.5px solid #f4b8b0;border-radius:13px;padding:13px 15px;margin-bottom:12px;display:flex;gap:10px;align-items:flex-start}
+.alert-icon{font-size:20px;flex-shrink:0;margin-top:1px}
+.alert-body{}
+.alert-title{font-size:13px;font-weight:700;color:#c84b31;margin-bottom:3px}
+.alert-msg{font-size:12px;color:#a03020;line-height:1.6}
 </style>
 
 </head>
 <body>
 
 <div class="hd">
-  <div class="hd-title">日 스터디 체크<small>JLPT N3 · 2025.07.05</small></div>
-  <div class="dday-box"><b id="ddayNum">-</b><span>D-DAY</span></div>
+  <div class="hd-left">
+    <h1>日 스터디 체크</h1>
+    <p id="todayStr"></p>
+  </div>
+  <div class="dday"><b id="ddayNum">-</b><span>D-DAY</span></div>
 </div>
 
 <div class="tabs">
   <button class="tab on" onclick="go('today',this)">✅ 오늘</button>
-  <button class="tab" onclick="go('progress',this)">📊 진도</button>
-  <button class="tab" onclick="go('cal',this)">📅 캘린더</button>
-  <button class="tab" onclick="go('log',this)">📋 기록</button>
+  <button class="tab" onclick="go('members',this)">👥 멤버</button>
+
+<button class="tab" onclick="go('cal',this)">📊 진도 · 캘린더</button>
+<button class="tab" onclick="go('log',this)">📋 기록</button>
+
 </div>
 
 <div class="wrap">
@@ -122,83 +140,110 @@ body{font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:#f2f
 <!-- 오늘 -->
 
 <div id="today" class="sec on">
-  <div style="text-align:center;font-size:12px;color:#8e8e93;margin-bottom:12px" id="todayLabel"></div>
+  <div id="alertBanner"></div>
   <div class="card">
-    <div class="card-ttl">오늘 인강 들었나요?</div>
-    <div class="chk-row">
-      <div class="chk-left">
-        <div class="chk-ico ico-r">📖</div>
-        <div><div class="chk-name">독해 인강</div><div class="chk-sub">読解 · 전체 10강</div></div>
-      </div>
-      <button class="tog" id="togR" onclick="tog('r')"></button>
-    </div>
-    <div class="chk-row">
-      <div class="chk-left">
-        <div class="chk-ico ico-l">🎧</div>
-        <div><div class="chk-name">청해 인강</div><div class="chk-sub">聴解 · 전체 13강</div></div>
-      </div>
-      <button class="tog" id="togL" onclick="tog('l')"></button>
-    </div>
-    <div class="chk-row">
-      <div class="chk-left">
-        <div class="chk-ico ico-v">✏️</div>
-        <div><div class="chk-name">단어 암기</div><div class="chk-sub">오늘 외운 단어 수</div></div>
-      </div>
-      <div class="vctr">
-        <button class="vb" onclick="vc(-1)">−</button>
-        <div class="vn" id="vNum">0</div>
-        <span style="font-size:11px;color:#8e8e93">개</span>
-        <button class="vb" onclick="vc(1)">+</button>
-      </div>
-    </div>
-    <button class="save-btn" onclick="save()">💾 오늘 기록 저장</button>
+    <div class="ct">오늘 수강 기록</div>
+
+```
+<div class="input-row">
+  <div class="ir-left">
+    <div class="ico ico-r">📖</div>
+    <div><div class="ir-name">독해</div><div class="ir-sub">読解 · 전체 10강</div></div>
+  </div>
+  <div class="counter">
+    <button class="cb" onclick="cc('r',-1)">−</button>
+    <div class="cnum" id="cR">0</div>
+    <div class="cunit">강</div>
+    <button class="cb" onclick="cc('r',1)">+</button>
   </div>
 </div>
 
-<!-- 진도 -->
-
-<div id="progress" class="sec">
-  <div class="card">
-    <div class="card-ttl">전체 진도</div>
-    <div id="totalProg"></div>
+<div class="input-row">
+  <div class="ir-left">
+    <div class="ico ico-l">🎧</div>
+    <div><div class="ir-name">청해</div><div class="ir-sub">聴解 · 전체 13강</div></div>
   </div>
-  <div class="card">
-    <div class="card-ttl">이번주 진도</div>
-    <div id="weekProg"></div>
-  </div>
-  <div class="card" style="background:#fef9e8;border:1px solid #fde68a">
-    <div class="card-ttl" style="color:#b8860b">📌 수강 계획</div>
-    <div style="font-size:12px;color:#555;line-height:1.9">
-      독해 10강 → <b>5주 완강</b> (주 2강)<br>
-      청해 13강 → <b>7주 완강</b> (주 2강)<br>
-      총 12주 · 시험 7월 5일까지 여유 있어요 ✅
-    </div>
+  <div class="counter">
+    <button class="cb" onclick="cc('l',-1)">−</button>
+    <div class="cnum" id="cL">0</div>
+    <div class="cunit">강</div>
+    <button class="cb" onclick="cc('l',1)">+</button>
   </div>
 </div>
 
-<!-- 캘린더 -->
+<div class="input-row">
+  <div class="ir-left">
+    <div class="ico ico-v">✏️</div>
+    <div><div class="ir-name">단어 암기</div><div class="ir-sub">오늘 외운 단어</div></div>
+  </div>
+  <div class="counter">
+    <button class="cb" onclick="cc('v',-1)">−</button>
+    <div class="cnum" id="cV">0</div>
+    <div class="cunit">개</div>
+    <button class="cb" onclick="cc('v',1)">+</button>
+  </div>
+</div>
+
+<div class="memo-wrap">
+  <label>📝 오늘 공부 메모 (선택)</label>
+  <textarea class="memo-input" id="memo" rows="2" placeholder="예: 문제4 단문독해 2강 완료, 어휘 어려웠음"></textarea>
+</div>
+
+<button class="save-btn" onclick="save()">💾 오늘 기록 저장</button>
+```
+
+  </div>
+</div>
+
+<!-- 멤버 현황 -->
+
+<div id="members" class="sec">
+  <div class="card">
+    <div class="ct">오늘 학습 현황</div>
+    <div id="memberList"></div>
+  </div>
+</div>
+
+<!-- 진도+캘린더 -->
 
 <div id="cal" class="sec">
   <div class="card">
+    <div class="ct">전체 진도</div>
+    <div id="totalProg"></div>
+  </div>
+  <div class="card">
+    <div class="ct">이번주 진도</div>
+    <div id="weekProg"></div>
+  </div>
+  <div class="card" style="background:#fef9e8;border:1px solid #fde68a">
+    <div class="ct" style="color:#b8860b">📌 수강 계획</div>
+    <div style="font-size:12px;color:#555;line-height:2">
+      독해 10강 → <b>4주 완강</b> (주 3강, 5/13 목표)<br>
+      청해 13강 → <b>4.7주 완강</b> (주 3강, 6/15 목표)<br>
+      강의 마감 6/15 · 시험 7/5 💪
+    </div>
+  </div>
+  <div class="card">
     <div class="cal-head">
-      <button class="cal-btn" onclick="mth(-1)">◀</button>
+      <button class="cal-nav" onclick="mth(-1)">◀</button>
       <div class="cal-mth" id="calLabel"></div>
-      <button class="cal-btn" onclick="mth(1)">▶</button>
+      <button class="cal-nav" onclick="mth(1)">▶</button>
     </div>
     <div class="cal-grid" id="calGrid"></div>
   </div>
-  <div class="card" style="font-size:11px;color:#8e8e93;line-height:2">
-    <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#34c759;margin-right:4px"></span>공부한 날
-    <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#c84b31;margin-left:10px;margin-right:4px"></span>오늘
-    <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#feeae8;border:1px solid #c84b31;margin-left:10px;margin-right:4px"></span>시험일 (7/5)
+  <div class="card" style="font-size:11px;color:#8e8e93;line-height:2.2">
+    <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#34c759;margin-right:5px"></span>공부한 날&nbsp;&nbsp;
+    <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#c84b31;margin-right:5px"></span>오늘&nbsp;&nbsp;
+    <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#feeae8;border:1px solid #c84b31;margin-right:5px"></span>시험일 (7/5)
   </div>
 </div>
 
 <!-- 기록 -->
 
 <div id="log" class="sec">
+  <div id="alertBannerLog"></div>
   <div class="card">
-    <div class="card-ttl">최근 학습 기록</div>
+    <div class="ct">학습 기록</div>
     <div id="logList"></div>
   </div>
 </div>
@@ -207,194 +252,244 @@ body{font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:#f2f
 <div class="toast" id="toast"></div>
 
 <script>
-// Firebase
 firebase.initializeApp({
   apiKey:"AIzaSyDgpljUaAuoNh1iYz1Tt6FUxoWbJFG-Rxk",
   authDomain:"jlpt-mae.firebaseapp.com",
   projectId:"jlpt-mae",
   storageBucket:"jlpt-mae.firebasestorage.app",
   messagingSenderId:"382471244943",
-  appId:"1:382471244943:web:1f4b4263b2752884e9f4fa"
+  appId:"1:382371244943:web:1f4b4263b2752884e9f4fa"
 });
 var db = firebase.firestore();
 
-// 상태
 var TODAY = new Date().toISOString().split('T')[0];
-var state = {r:false, l:false, v:0};
-var logs = [];
-var calY = new Date().getFullYear(), calM = new Date().getMonth();
+var state = {r:0, l:0, v:0};
+var logs = []; // 나 (미정)
+var friendLogs = {}; // {memberId: [logs]}
+
+// 멤버 정의
+var ME = {id:'mijung', name:'미정', av:'美', cls:'av-a'};
+var FRIENDS = [
+  {id:'daseul', name:'다슬', av:'花', cls:'av-b'},
+  {id:'soyoung', name:'소영', av:'星', cls:'av-c'},
+];
+var ALL = [ME].concat(FRIENDS);
 
 // D-Day
 var exam = new Date('2025-07-05T00:00:00');
 var dd = Math.ceil((exam - new Date()) / 86400000);
 document.getElementById('ddayNum').textContent = dd > 0 ? dd : 'D-Day!';
 
-// 오늘 날짜 표시
-var D = new Date(), DAYS=['일','월','화','수','목','금','토'];
-document.getElementById('todayLabel').textContent =
-  D.getFullYear()+'년 '+(D.getMonth()+1)+'월 '+D.getDate()+'일 '+DAYS[D.getDay()]+'요일';
+// 오늘 날짜
+var D=new Date(), DW=['일','월','화','수','목','금','토'];
+document.getElementById('todayStr').textContent = (D.getMonth()+1)+'월 '+D.getDate()+'일 '+DW[D.getDay()]+'요일';
 
-// 탭
-function go(id, btn) {
+var calY=D.getFullYear(), calM=D.getMonth();
+
+function go(id,btn){
   document.querySelectorAll('.sec').forEach(function(s){s.classList.remove('on');});
   document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('on');});
-  document.getElementById(id).classList.add('on');
-  btn.classList.add('on');
-  if(id==='cal') renderCal();
-  if(id==='progress') renderProgress();
+  document.getElementById(id).classList.add('on'); btn.classList.add('on');
+  
+  if(id==='cal'){renderProgress();renderCal();}
   if(id==='log') renderLog();
+  if(id==='members') renderMembers();
 }
 
-// 토글
-function tog(t) {
-  state[t] = !state[t];
-  document.getElementById(t==='r'?'togR':'togL').classList.toggle('on', state[t]);
+function cc(t,d){
+  state[t]=Math.max(0,state[t]+d);
+  document.getElementById(t==='r'?'cR':t==='l'?'cL':'cV').textContent=state[t];
 }
 
-// 단어
-function vc(d) {
-  state.v = Math.max(0, state.v + d);
-  document.getElementById('vNum').textContent = state.v;
+function save(){
+  var memo=document.getElementById('memo').value.trim();
+  db.collection('studyLog_mijung').doc(TODAY).set({
+    date:TODAY, reading:state.r, listening:state.l, vocab:state.v, memo:memo, ts:Date.now()
+  }).then(function(){showToast('✅ 저장됐어요!');})
+  .catch(function(e){showToast('오류: '+e.message);});
 }
 
-// 저장
-function save() {
-  db.collection('studyLog').doc(TODAY).set({
-    date: TODAY, reading: state.r, listening: state.l, vocab: state.v, ts: Date.now()
-  }).then(function(){ showToast('✅ 저장됐어요!'); })
-  .catch(function(e){ showToast('오류: '+e.message); });
-}
-
-// 이번주 월~일
-function weekDates() {
-  var now = new Date(), dow = now.getDay();
-  var mon = new Date(now); mon.setDate(now.getDate()-(dow===0?6:dow-1));
-  var arr = [];
+// 이번주 날짜
+function weekDates(){
+  var now=new Date(),dow=now.getDay();
+  var mon=new Date(now); mon.setDate(now.getDate()-(dow===0?6:dow-1));
+  var arr=[];
   for(var i=0;i<7;i++){var d=new Date(mon);d.setDate(mon.getDate()+i);arr.push(d.toISOString().split('T')[0]);}
   return arr;
 }
 
-// 전체 진도 렌더
-function renderProgress() {
-  var totalR = logs.filter(function(l){return l.reading;}).length;
-  var totalL = logs.filter(function(l){return l.listening;}).length;
-  var pR = Math.min(100, Math.round(totalR/10*100));
-  var pL = Math.min(100, Math.round(totalL/13*100));
+// 멤버 현황
+function renderMembers(){
+  var el=document.getElementById('memberList'); if(!el) return;
+  el.innerHTML = ALL.map(function(m){
+    var mLogs = m.id==='mijung' ? logs : (friendLogs[m.id]||[]);
+    var tl = mLogs.find(function(l){return l.date===TODAY;});
+    var chips='', memo='', noStudy='';
+    if(tl){
+      if(tl.reading) chips+='<span class="chip chip-r">독해 '+tl.reading+'강</span>';
+      if(tl.listening) chips+='<span class="chip chip-l">청해 '+tl.listening+'강</span>';
+      if(tl.vocab) chips+='<span class="chip chip-v">단어 '+tl.vocab+'개</span>';
+      if(tl.memo) memo='<div class="m-memo">💬 '+tl.memo+'</div>';
+      if(!tl.reading&&!tl.listening&&!tl.vocab) noStudy='<div class="m-none">오늘 기록 없음</div>';
+    } else {
+      noStudy='<div class="m-none">아직 기록 없음</div>';
+    }
+    return '<div class="member-card">'+
+      '<div class="m-avatar '+m.cls+'">'+m.av+'</div>'+
+      '<div class="m-info">'+
+        '<div class="m-name">'+m.name+(m.id==='mijung'?' (나)':'')+'</div>'+
+        (chips?'<div class="chips">'+chips+'</div>':'')+
+        memo+noStudy+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
 
-  // 지연 체크: 오늘 기준 경과 주수
-  var start = new Date('2025-04-15');
-  var weeksGone = Math.floor((new Date()-start)/604800000);
-  var expectedR = Math.min(10, weeksGone*2);
-  var expectedL = 0; // 독해 완강 후 시작
-  if(totalR >= 10) expectedL = Math.min(13, (weeksGone - 5)*2);
+// 지연 알람 체크
+function checkAlert(){
+  var sumR=logs.reduce(function(s,l){return s+(l.reading||0);},0);
+  var sumL=logs.reduce(function(s,l){return s+(l.listening||0);},0);
+  var start=new Date('2025-04-15');
+  var weeksGone=Math.max(0,Math.floor((new Date()-start)/604800000));
+  var expR=Math.min(10,weeksGone*3);
+  var expL=sumR>=10?Math.min(13,(weeksGone-4)*3):0;
+  var behindR=Math.max(0,expR-sumR);
+  var behindL=Math.max(0,expL-sumL);
 
-  function statusBadge(done, expected) {
-    if(done >= expected) return '<span class="badge ok">✅ 순조로워요</span>';
-    var behind = expected - done;
-    return '<span class="badge late">⚠️ '+behind+'강 지연</span>';
+  var html='';
+  if(behindR>0||behindL>0){
+    var msgs=[];
+    if(behindR>0) msgs.push('독해 <b>'+behindR+'강</b> 뒤처져 있어요 (현재 '+sumR+'/10강)');
+    if(behindL>0) msgs.push('청해 <b>'+behindL+'강</b> 뒤처져 있어요 (현재 '+sumL+'/13강)');
+    html='<div class="alert-banner">'+
+      '<div class="alert-icon">🚨</div>'+
+      '<div class="alert-body">'+
+        '<div class="alert-title">진도 지연 중이에요!</div>'+
+        '<div class="alert-msg">'+msgs.join('<br>')+'<br>진도를 따라잡을 때까지 알람이 표시돼요.</div>'+
+      '</div>'+
+    '</div>';
+  }
+  var b1=document.getElementById('alertBanner');
+  var b2=document.getElementById('alertBannerLog');
+  if(b1) b1.innerHTML=html;
+  if(b2) b2.innerHTML=html;
+}
+
+// 전체 진도
+function renderProgress(){
+  var totalR=logs.filter(function(l){return l.reading>0;}).length;
+  var totalL=logs.filter(function(l){return l.listening>0;}).length;
+  var sumR=logs.reduce(function(s,l){return s+(l.reading||0);},0);
+  var sumL=logs.reduce(function(s,l){return s+(l.listening||0);},0);
+  var pR=Math.min(100,Math.round(sumR/10*100));
+  var pL=Math.min(100,Math.round(sumL/13*100));
+
+  // 지연 체크
+  var start=new Date('2025-04-15');
+  var weeksGone=Math.max(0,Math.floor((new Date()-start)/604800000));
+  var expR=Math.min(10,weeksGone*3);
+  var expL=sumR>=10?Math.min(13,(weeksGone-4)*3):0;
+  function badge(done,exp){
+    if(done>=exp) return '<span class="badge ok">✅ 순조로워요</span>';
+    return '<span class="badge late">⚠️ '+(exp-done)+'강 지연</span>';
   }
 
-  document.getElementById('totalProg').innerHTML =
+  document.getElementById('totalProg').innerHTML=
     '<div class="prog-blk">'+
-      '<div class="prog-head"><div class="prog-name">📖 독해</div><div class="prog-sub">'+totalR+'/10강</div></div>'+
+      '<div class="prog-head"><div class="prog-name">📖 독해</div><div style="font-size:11px;color:#8e8e93">'+sumR+'/10강</div></div>'+
       '<div class="bar"><div class="fill fr" style="width:'+pR+'%"></div></div>'+
-      '<div class="prog-foot"><div class="prog-num">진도율 '+pR+'%</div>'+statusBadge(totalR, expectedR)+'</div>'+
+      '<div class="prog-foot"><div class="prog-pct">'+pR+'%</div>'+badge(sumR,expR)+'</div>'+
     '</div>'+
     '<div class="prog-blk">'+
-      '<div class="prog-head"><div class="prog-name">🎧 청해</div><div class="prog-sub">'+(totalR<10?'독해 완강 후 시작':totalL+'/13강')+'</div></div>'+
-      (totalR<10
-        ? '<div style="font-size:11px;color:#8e8e93;padding:4px 0">독해 완강 후 청해 시작이에요</div>'
-        : '<div class="bar"><div class="fill fl" style="width:'+pL+'%"></div></div><div class="prog-foot"><div class="prog-num">진도율 '+pL+'%</div>'+statusBadge(totalL, expectedL)+'</div>'
+      '<div class="prog-head"><div class="prog-name">🎧 청해</div><div style="font-size:11px;color:#8e8e93">'+(sumR<10?'독해 먼저!':sumL+'/13강')+'</div></div>'+
+      (sumR<10
+        ?'<div style="font-size:11px;color:#c7c7cc;padding:4px 0">독해 완강 후 시작해요</div>'
+        :'<div class="bar"><div class="fill fl" style="width:'+pL+'%"></div></div><div class="prog-foot"><div class="prog-pct">'+pL+'%</div>'+badge(sumL,expL)+'</div>'
       )+
     '</div>';
 
   // 이번주
-  var week = weekDates();
-  var wLogs = logs.filter(function(l){return week.indexOf(l.date)>=0;});
-  var wR = wLogs.filter(function(l){return l.reading;}).length;
-  var wL = wLogs.filter(function(l){return l.listening;}).length;
-  var wV = wLogs.reduce(function(s,l){return s+(l.vocab||0);},0);
+  var week=weekDates();
+  var wl=logs.filter(function(l){return week.indexOf(l.date)>=0;});
+  var wR=wl.reduce(function(s,l){return s+(l.reading||0);},0);
+  var wL=wl.reduce(function(s,l){return s+(l.listening||0);},0);
+  var wV=wl.reduce(function(s,l){return s+(l.vocab||0);},0);
+  var wGoalR=sumR<10?3:0, wGoalL=sumR>=10?3:0;
+  var rDots=week.map(function(dt){var h=wl.find(function(l){return l.date===dt;});return '<div class="wd'+(h&&h.reading>0?' r':'')+'"></div>';}).join('');
+  var lDots=week.map(function(dt){var h=wl.find(function(l){return l.date===dt;});return '<div class="wd'+(h&&h.listening>0?' l':'')+'"></div>';}).join('');
 
-  // 이번주 목표: 독해 미완이면 독해 2강, 완이면 청해 2강
-  var wGoalR = totalR < 10 ? 2 : 0;
-  var wGoalL = totalR >= 10 ? 2 : 0;
-
-  var rDots = week.map(function(dt){var h=wLogs.find(function(l){return l.date===dt;});return '<div class="wd'+(h&&h.reading?' r':'')+'"></div>';}).join('');
-  var lDots = week.map(function(dt){var h=wLogs.find(function(l){return l.date===dt;});return '<div class="wd'+(h&&h.listening?' l':'')+'"></div>';}).join('');
-
-  document.getElementById('weekProg').innerHTML =
-    (wGoalR > 0 ?
-      '<div class="prog-blk">'+
-        '<div class="prog-head"><div class="prog-name">📖 독해</div><div class="prog-sub">이번주 목표 <b>'+wGoalR+'강</b></div></div>'+
-        '<div class="bar"><div class="fill fr" style="width:'+Math.min(100,Math.round(wR/wGoalR*100))+'%"></div></div>'+
-        '<div class="prog-foot"><div class="prog-num">'+wR+'/'+wGoalR+'강 '+(wR>=wGoalR?'✅':'')+'</div></div>'+
-        '<div class="week-dots">'+rDots+'</div>'+
-      '</div>' : '') +
-    (wGoalL > 0 ?
-      '<div class="prog-blk">'+
-        '<div class="prog-head"><div class="prog-name">🎧 청해</div><div class="prog-sub">이번주 목표 <b>'+wGoalL+'강</b></div></div>'+
-        '<div class="bar"><div class="fill fl" style="width:'+Math.min(100,Math.round(wL/wGoalL*100))+'%"></div></div>'+
-        '<div class="prog-foot"><div class="prog-num">'+wL+'/'+wGoalL+'강 '+(wL>=wGoalL?'✅':'')+'</div></div>'+
-        '<div class="week-dots">'+lDots+'</div>'+
-      '</div>' : '') +
-    '<div class="prog-blk"><div class="prog-head"><div class="prog-name">✏️ 단어</div><div class="prog-sub">이번주 총 <b>'+wV+'</b>개</div></div></div>';
+  document.getElementById('weekProg').innerHTML=
+    (wGoalR>0?'<div class="prog-blk"><div class="prog-head"><div class="prog-name">📖 독해</div><div style="font-size:11px;color:#8e8e93">이번주 목표 <b>'+wGoalR+'강</b></div></div><div class="bar"><div class="fill fr" style="width:'+Math.min(100,Math.round(wR/wGoalR*100))+'%"></div></div><div class="prog-foot"><div class="prog-pct">'+wR+'/'+wGoalR+'강'+(wR>=wGoalR?' ✅':'')+'</div></div><div class="week-dots">'+rDots+'</div></div>':'')+
+    (wGoalL>0?'<div class="prog-blk"><div class="prog-head"><div class="prog-name">🎧 청해</div><div style="font-size:11px;color:#8e8e93">이번주 목표 <b>'+wGoalL+'강</b></div></div><div class="bar"><div class="fill fl" style="width:'+Math.min(100,Math.round(wL/wGoalL*100))+'%"></div></div><div class="prog-foot"><div class="prog-pct">'+wL+'/'+wGoalL+'강'+(wL>=wGoalL?' ✅':'')+'</div></div><div class="week-dots">'+lDots+'</div></div>':'')+
+    '<div class="prog-blk"><div class="prog-head"><div class="prog-name">✏️ 단어</div><div style="font-size:11px;color:#8e8e93">이번주 총 <b>'+wV+'</b>개</div></div></div>';
 }
 
 // 캘린더
-function renderCal() {
-  document.getElementById('calLabel').textContent = calY+'년 '+(calM+1)+'월';
-  var g = document.getElementById('calGrid');
-  var DL = ['일','월','화','수','목','금','토'];
-  var h = DL.map(function(d){return '<div class="cal-dl">'+d+'</div>';}).join('');
-  var first = new Date(calY,calM,1).getDay();
-  var last = new Date(calY,calM+1,0).getDate();
-  var todayStr = TODAY;
-  var examStr = '2025-07-05';
+function renderCal(){
+  document.getElementById('calLabel').textContent=calY+'년 '+(calM+1)+'월';
+  var g=document.getElementById('calGrid');
+  var DL=['일','월','화','수','목','금','토'];
+  var h=DL.map(function(d){return '<div class="cal-dl">'+d+'</div>';}).join('');
+  var first=new Date(calY,calM,1).getDay(),last=new Date(calY,calM+1,0).getDate();
   for(var i=0;i<first;i++) h+='<div></div>';
   for(var d=1;d<=last;d++){
-    var ds = calY+'-'+String(calM+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
-    var isToday = ds===todayStr;
-    var isExam = ds===examStr;
-    var studied = logs.some(function(l){return l.date===ds && (l.reading||l.listening);});
-    var cls = isExam?'exam':isToday?'today':'';
-    if(studied&&!isToday) cls+=' has';
+    var ds=calY+'-'+String(calM+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    var isT=ds===TODAY, isE=ds==='2025-07-05';
+    var studied=logs.some(function(l){return l.date===ds&&(l.reading>0||l.listening>0);});
+    var cls=isE?'exam':isT?'today':'';
+    if(studied&&!isT) cls+=' has';
     h+='<div class="cal-d '+cls+'">'+d+'</div>';
   }
-  g.innerHTML = h;
+  g.innerHTML=h;
 }
-function mth(dir){calM+=dir;if(calM>11){calM=0;calY++;}if(calM<0){calM=11;calY--;}renderCal();}
+function mth(d){calM+=d;if(calM>11){calM=0;calY++;}if(calM<0){calM=11;calY--;}renderCal();}
 
 // 기록
-function renderLog() {
-  var el = document.getElementById('logList');
-  var sorted = logs.slice().sort(function(a,b){return b.date.localeCompare(a.date);});
-  if(sorted.length===0){el.innerHTML='<p style="font-size:12px;color:#8e8e93">아직 기록 없음</p>';return;}
-  el.innerHTML = sorted.slice(0,14).map(function(l){
-    var md = l.date.slice(5).replace('-','/');
-    return '<div class="log-item"><div class="log-date">'+md+'</div><div class="chips">'+
-      (l.reading?'<span class="chip chip-r">독해 ✓</span>':'')+
-      (l.listening?'<span class="chip chip-l">청해 ✓</span>':'')+
-      (l.vocab?'<span class="chip chip-v">단어 '+l.vocab+'개</span>':'')+
-    '</div></div>';
+function renderLog(){
+  var el=document.getElementById('logList'); if(!el) return;
+  var sorted=logs.slice().sort(function(a,b){return b.date.localeCompare(a.date);});
+  if(sorted.length===0){el.innerHTML='<p style="font-size:12px;color:#c7c7cc">아직 기록 없음</p>';return;}
+  el.innerHTML=sorted.slice(0,14).map(function(l){
+    var chips='';
+    if(l.reading) chips+='<span class="chip chip-r">독해 '+l.reading+'강</span>';
+    if(l.listening) chips+='<span class="chip chip-l">청해 '+l.listening+'강</span>';
+    if(l.vocab) chips+='<span class="chip chip-v">단어 '+l.vocab+'개</span>';
+    return '<div class="log-item">'+
+      '<div class="log-top">'+
+        '<div class="log-date">'+l.date.slice(5).replace('-','/')+'</div>'+
+        '<div class="chips">'+chips+'</div>'+
+      '</div>'+
+      (l.memo?'<div class="log-memo">💬 '+l.memo+'</div>':'')+
+    '</div>';
   }).join('');
 }
 
-// 토스트
-function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');setTimeout(function(){t.classList.remove('on');},2200);}
+function showToast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(function(){t.classList.remove('on');},2200);}
 
-// Firebase 실시간
-db.collection('studyLog').onSnapshot(function(snap){
-  logs = snap.docs.map(function(d){return Object.assign({_id:d.id},d.data());});
-  var tl = logs.find(function(l){return l.date===TODAY;});
+// Firebase 리스너 - 나
+db.collection('studyLog_mijung').onSnapshot(function(snap){
+  logs=snap.docs.map(function(d){return Object.assign({_id:d.id},d.data());});
+  var tl=logs.find(function(l){return l.date===TODAY;});
   if(tl){
-    state.r=tl.reading||false; state.l=tl.listening||false; state.v=tl.vocab||0;
-    document.getElementById('togR').classList.toggle('on',state.r);
-    document.getElementById('togL').classList.toggle('on',state.l);
-    document.getElementById('vNum').textContent=state.v;
+    state.r=tl.reading||0; state.l=tl.listening||0; state.v=tl.vocab||0;
+    document.getElementById('cR').textContent=state.r;
+    document.getElementById('cL').textContent=state.l;
+    document.getElementById('cV').textContent=state.v;
+    if(tl.memo) document.getElementById('memo').value=tl.memo;
   }
-  if(document.getElementById('progress').classList.contains('on')) renderProgress();
+  if(document.getElementById('progress').classList||true) checkAlert();
+  if(document.getElementById('cal').classList.contains('on')) renderProgress();
   if(document.getElementById('cal').classList.contains('on')) renderCal();
   if(document.getElementById('log').classList.contains('on')) renderLog();
+  if(document.getElementById('members').classList.contains('on')) renderMembers();
+});
+
+// Firebase 리스너 - 친구들
+FRIENDS.forEach(function(f){
+  db.collection('studyLog_'+f.id).onSnapshot(function(snap){
+    friendLogs[f.id]=snap.docs.map(function(d){return Object.assign({_id:d.id},d.data());});
+    if(document.getElementById('members').classList.contains('on')) renderMembers();
+  });
 });
 </script>
 
